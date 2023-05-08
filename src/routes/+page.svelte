@@ -65,7 +65,7 @@
   })
 </script>
 
-{#if $gltfRoom && $assetsTextures}
+{#if $assetsTextures}
   <RoomScene {isMobile} />
 {:else}
   <Loading />
