@@ -19,7 +19,7 @@
   import VirtualScroll from 'virtual-scroll'
   const { size, renderer, camera, scene } = useThrelte()
   import gsap from 'gsap'
-  import { assets } from '../../../stores'
+  import { assetsProjectsSingle as assets } from '../../../stores'
   import { dragControls, mouseDown } from '../../../dragControls'
 
   export let pictures
@@ -82,7 +82,7 @@
 
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY
+      speed = event.deltaY * (isMobile ? 3 : 1)
     })
 
     createPlane()

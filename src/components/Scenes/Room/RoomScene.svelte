@@ -48,6 +48,22 @@
   beforeNavigate((navigation) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
+        // if (isMobile) {
+        //   gsap.to(groupText.scale, {
+        //     x: 0,
+        //     y: 0,
+        //     z: 0,
+        //     ease: 'Power4.easeOut',
+        //     duration: 0.4,
+        //   })
+        //   gsap.to(groupRoom.scale, {
+        //     x: 0,
+        //     y: 0,
+        //     z: 0,
+        //     ease: 'Power4.easeOut',
+        //     duration: 0.4,
+        //   })
+        // } else if (!isMobile) {
         gsap.to(groupText.position, {
           x: -20,
           ease: 'Power4.easeOut',
@@ -58,6 +74,7 @@
           ease: 'Power4.easeOut',
           duration: 3,
         })
+        // }
       }
   })
 

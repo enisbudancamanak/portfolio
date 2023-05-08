@@ -6,7 +6,7 @@
   import MovingGradient from '../components/MovingGradient.svelte'
   import ProfileCard from '../components/ProfileCard.svelte'
   import Preloader from '../components/Preloader.svelte'
-  import { assets, gltfRoom } from '../stores.js'
+  import { gltfRoom } from '../stores.js'
   import Loading from '../components/Loading.svelte'
 </script>
 
@@ -16,11 +16,7 @@
 
 <div class="w-screen h-screen overflow-hidden absolute bg-transparent z-[9999]">
   <Canvas>
-    {#if $assets && $gltfRoom}
-      <slot />
-    {:else}
-      <Loading />
-    {/if}
+    <slot />
 
     <Preloader />
   </Canvas>

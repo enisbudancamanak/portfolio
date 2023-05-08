@@ -27,12 +27,12 @@
       else isMobile = false
     })
   })
-  let shader = RGBShiftShader
-  shader.uniforms.amount.value = 0.0008
+  // let shader = RGBShiftShader
+  // shader.uniforms.amount.value = 0.0008
 
-  let distortion = {
-    progress: 0,
-  }
+  // let distortion = {
+  //   progress: 0,
+  // }
 
   // gsap.to(distortion, {
   //   progress: 0,

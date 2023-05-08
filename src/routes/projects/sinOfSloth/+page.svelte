@@ -1,5 +1,7 @@
 <script>
+  import Loading from '../../../components/Loading.svelte'
   import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '../../../stores'
 
   let title = 'Sin Of Sloth'
   let color = '#ff336d'
@@ -25,16 +27,20 @@
   let link = 'https://enisbudancamanak.github.io/SinOfSlothWebsite'
 </script>
 
-<ProjectSingle
-  {title}
-  {pictures}
-  {video}
-  {gameVideo}
-  {titlePicture}
-  {description}
-  {completed}
-  {client}
-  {type}
-  {link}
-  {color}
-/>
+{#if $assetsProjectsSingle}
+  <ProjectSingle
+    {title}
+    {pictures}
+    {video}
+    {gameVideo}
+    {titlePicture}
+    {description}
+    {completed}
+    {client}
+    {type}
+    {link}
+    {color}
+  />
+{:else}
+  <Loading />
+{/if}

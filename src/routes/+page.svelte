@@ -6,6 +6,8 @@
   import Portal from 'svelte-portal'
   import ProfileCard from '../components/ProfileCard.svelte'
   import MovingGradient from '../components/MovingGradient.svelte'
+  import Loading from '../components/Loading.svelte'
+  import { assetsTextures, gltfRoom } from '../stores'
 
   let isMobile = false
   onMount(() => {
@@ -65,7 +67,11 @@
   })
 </script>
 
-<RoomScene {isMobile} />
+{#if $gltfRoom && $assetsTextures}
+  <RoomScene {isMobile} />
+{:else}
+  <Loading />
+{/if}
 
 <Portal>
   <MovingGradient />

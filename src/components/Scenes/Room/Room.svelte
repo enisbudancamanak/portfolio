@@ -14,7 +14,7 @@
   import { gltfRoom, firstTimeLoad } from '../../../stores.js'
   import { beforeNavigate } from '$app/navigation'
   import { useGltf, useSuspense } from '@threlte/extras'
-  import { assets } from '../../../stores'
+  import { assetsTextures as assets } from '../../../stores'
 
   let pointerX = 0
   let pointerY = 0
@@ -29,28 +29,6 @@
   $: offsetX.set(pointerX * 0.03)
   const offsetY = spring(pointerY * 0.03)
   $: offsetY.set(pointerY * 0.03)
-
-  let animateTime = false
-  beforeNavigate((navigation) => {
-    if (navigation.from?.route.id != navigation.to?.route.id)
-      if (!animateTime) {
-        gsap.to(model.scene.scale, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 1,
-          ease: 'Power4.out',
-          delay: 0,
-        })
-        // gsap.to(model.scene.position, {
-        //   x: 40,
-        //   y: 10,
-        //   duration: 2,
-        //   ease: 'Power4.out',
-        //   delay: 0,
-        // })
-      }
-  })
 
   $: if (model) {
     gsap.to(model.scene.scale, {

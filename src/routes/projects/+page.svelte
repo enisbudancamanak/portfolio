@@ -5,6 +5,8 @@
   import Portal from 'svelte-portal'
   import { LottiePlayer } from '@lottiefiles/svelte-lottie-player'
   import { beforeNavigate } from '$app/navigation'
+  import Loading from '../../components/Loading.svelte'
+  import { assetsProjects } from '../../stores'
 
   onMount(() => {
     gsap.to(document.querySelector('#backgroundColorProjects'), {
@@ -38,7 +40,11 @@
   })
 </script>
 
-<ProjectsScene />
+{#if $assetsProjects}
+  <ProjectsScene />
+{:else}
+  <Loading />
+{/if}
 
 <Portal>
   <div

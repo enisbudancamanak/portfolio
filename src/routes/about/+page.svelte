@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div id="content" class="absolute w-screen h-screen px-4 pt-8 pb-16 xl:p-24">
+  <div id="content" class="absolute w-screen h-screen px-4 pt-4 pb-16 xl:p-24">
     <canvas
       id="gradient-canvas"
       class="z-0 rounded-xl opacity-90"
@@ -193,7 +193,7 @@
 
   <div
     id="bottomBar"
-    class="flex justify-between items-center w-screen p-4 xl:px-28 xl:py-8 z-[999999999999999999] absolute bottom-0"
+    class="flex justify-between items-center w-screen p-6 xl:px-28 xl:py-8 z-[999999999999999999] absolute bottom-0"
   >
     <div class="tooltip">
       <button

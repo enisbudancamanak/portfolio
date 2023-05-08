@@ -2,7 +2,12 @@
   import { useLoader } from '@threlte/core'
   import { TextureLoader } from 'three'
   import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-  import { assets, gltfRoom } from '../stores.js'
+  import {
+    gltfRoom,
+    assetsProjects,
+    assetsTextures,
+    assetsProjectsSingle,
+  } from '../stores.js'
   import { useGltf, useSuspense } from '@threlte/extras'
 
   // GLTF
@@ -19,6 +24,10 @@
   const textures = load({
     '/textures/blackwood/black-parquet.jpg':
       '/textures/blackwood/black-parquet.jpg',
+    '/textures/blackwood/NormalMap.png': '/textures/blackwood/NormalMap.png',
+  })
+
+  const texturesProjects = load({
     '/pictures/projects/sinOfSloth.png': '/pictures/projects/sinOfSloth.png',
     '/pictures/projects/interactiveGraphics.png':
       '/pictures/projects/interactiveGraphics.png',
@@ -29,7 +38,9 @@
     '/pictures/projects/wagenfeldRedesign.png':
       '/pictures/projects/wagenfeldRedesign.png',
     '/pictures/projects/toyroom.png': '/pictures/projects/toyroom.png',
-    '/textures/blackwood/NormalMap.png': '/textures/blackwood/NormalMap.png',
+  })
+
+  const textureProjectsSingle = load({
     '/pictures/projects/ARthlete/1.png': '/pictures/projects/ARthlete/1.png',
     '/pictures/projects/ARthlete/2.png': '/pictures/projects/ARthlete/2.png',
     '/pictures/projects/ARthlete/3.png': '/pictures/projects/ARthlete/3.png',
@@ -77,5 +88,9 @@
       '/pictures/projects/WagenfeldRedesign/3.png',
   })
 
-  $: assets.set($textures), gltfRoom.set($gltf) // [Texture, Texture]
+  $: assetsTextures.set($textures),
+    gltfRoom.set($gltf),
+    assetsProjects.set($texturesProjects),
+    assetsProjectsSingle.set($textureProjectsSingle)
+  // [Texture, Texture]
 </script>

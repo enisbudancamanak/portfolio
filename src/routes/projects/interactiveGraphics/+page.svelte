@@ -1,5 +1,7 @@
 <script>
+  import Loading from '../../../components/Loading.svelte'
   import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '../../../stores'
 
   let title = 'Interactive Graphics'
   let color = '#1f86ab'
@@ -28,16 +30,20 @@
   let link = 'https://enisbudancamanak.github.io/datengrafik_dashboard/'
 </script>
 
-<ProjectSingle
-  {title}
-  {pictures}
-  {video}
-  {gameVideo}
-  {titlePicture}
-  {description}
-  {completed}
-  {client}
-  {type}
-  {link}
-  {color}
-/>
+{#if $assetsProjectsSingle}
+  <ProjectSingle
+    {title}
+    {pictures}
+    {video}
+    {gameVideo}
+    {titlePicture}
+    {description}
+    {completed}
+    {client}
+    {type}
+    {link}
+    {color}
+  />
+{:else}
+  <Loading />
+{/if}

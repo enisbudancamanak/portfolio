@@ -20,7 +20,7 @@
   import vertexText from '../..//shaders/vertexText.glsl'
   import vertexPicture from '../../shaders/vertexPicture.glsl'
   import fragmentPicture from '../../shaders/fragmentPicture.glsl'
-  import { assets } from '../../../stores'
+  import { assetsProjects as assets } from '../../../stores'
   import { interactivity } from '@threlte/extras'
   interactivity()
   import { dragControls, mouseDown } from '../../../dragControls'
@@ -131,7 +131,7 @@
     // composer?.removePass()
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY
+      speed = event.deltaY * (isMobile ? 3 : 1)
     })
 
     createPlane()
