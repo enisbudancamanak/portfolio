@@ -1,19 +1,21 @@
+import { browser } from '$app/environment'
 import { writable } from 'svelte/store'
 
-function create_store(query = '(max-width: 800px)') {
+function create_store(max_width = 600, init = true) {
   const { subscribe } = writable(false, (set) => {
-    const media_query = window.matchMedia(query)
+    if (!init) return
 
-    set(media_query.matches)
+    const media_query = window.matchMedia(`(max-width: ${max_width}px)`)
+
     function handle_media_query(e) {
       set(e.matches)
     }
 
     media_query.addListener(handle_media_query)
 
-    return () => {
-      media_query.removeListener(handle_media_query)
-    }
+    handle_media_query(media_query)
+
+    return () => media_query.removeListener(handle_media_query)
   })
 
   return {
@@ -21,6 +23,6 @@ function create_store(query = '(max-width: 800px)') {
   }
 }
 
-const isMobile = create_store()
+const isMobile = create_store(600, browser)
 
 export default isMobile
