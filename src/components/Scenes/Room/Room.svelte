@@ -16,6 +16,7 @@
   import { useGltf, useSuspense } from '@threlte/extras'
   import { assetsTextures as assets } from '../../../stores'
 
+  export let isMobile
   let pointerX = 0
   let pointerY = 0
   let tekkenVideo
@@ -49,27 +50,29 @@
   })
 
   onMount(() => {
-    tekkenVideo = document.getElementById('tekkenGameplay')
-    tekkenVideo.play()
-    videoTextureTekken = new VideoTexture(tekkenVideo)
-    videoTextureTekken.flipY = false
-    videoTextureTekken.generateMipmaps = false
-    videoTextureTekken.encoding = sRGBEncoding
-    pacManVideo = document.getElementById('pacManGameplay')
-    pacManVideo.play()
-    videoTexturePacMan = new VideoTexture(pacManVideo)
-    videoTexturePacMan.flipY = false
-    videoTexturePacMan.generateMipmaps = false
-    videoTexturePacMan.encoding = sRGBEncoding
-    screenSaverVideo = document.getElementById('screenSaverPurple')
-    // screenSaverVideo.play()
-    videoTextureScreenSaver = new VideoTexture(screenSaverVideo)
-    videoTextureScreenSaver.flipY = false
-    videoTextureScreenSaver.generateMipmaps = false
-    videoTextureScreenSaver.encoding = sRGBEncoding
+    if (!isMobile) {
+      tekkenVideo = document.getElementById('tekkenGameplay')
+      tekkenVideo.play()
+      videoTextureTekken = new VideoTexture(tekkenVideo)
+      videoTextureTekken.flipY = false
+      videoTextureTekken.generateMipmaps = false
+      videoTextureTekken.encoding = sRGBEncoding
+      pacManVideo = document.getElementById('pacManGameplay')
+      pacManVideo.play()
+      videoTexturePacMan = new VideoTexture(pacManVideo)
+      videoTexturePacMan.flipY = false
+      videoTexturePacMan.generateMipmaps = false
+      videoTexturePacMan.encoding = sRGBEncoding
+      screenSaverVideo = document.getElementById('screenSaverPurple')
+      // screenSaverVideo.play()
+      videoTextureScreenSaver = new VideoTexture(screenSaverVideo)
+      videoTextureScreenSaver.flipY = false
+      videoTextureScreenSaver.generateMipmaps = false
+      videoTextureScreenSaver.encoding = sRGBEncoding
+    }
   })
 
-  $: if (model && !$firstTimeLoad) {
+  $: if (model && !$firstTimeLoad && !isMobile) {
     model.scene.traverse(function (child) {
       if (child.name == 'MachineScreen') {
         child.material = new MeshBasicMaterial({ map: videoTextureTekken })
@@ -101,25 +104,38 @@
         return
       }
 
-      if (child.name == 'MachineScreen') {
-        child.material = new MeshBasicMaterial({ map: videoTextureTekken })
-      } else if (child.name == 'Machine2Screen') {
-        child.material = new MeshBasicMaterial({
-          color: '#f2ddf8',
-          map: videoTexturePacMan,
-        })
-      } else if (child.name == 'Screen' || child.name == 'Screen2') {
-        // $projectsRenderer.renderTarget1.texture.flipX = true
-        child.material = new MeshBasicMaterial({
-          color: '#f2ddf8',
-          map: videoTextureScreenSaver,
-          // map: $projectsRenderer.renderTarget1.texture,
-        })
-      } else if (child.name == 'ScreenLaptop') {
-        child.material = new MeshBasicMaterial({
-          color: '#f2ddf8',
-          map: videoTextureScreenSaver,
-        })
+      if (!isMobile) {
+        if (child.name == 'MachineScreen') {
+          child.material = new MeshBasicMaterial({ map: videoTextureTekken })
+        } else if (child.name == 'Machine2Screen') {
+          child.material = new MeshBasicMaterial({
+            color: '#f2ddf8',
+            map: videoTexturePacMan,
+          })
+        } else if (child.name == 'Screen' || child.name == 'Screen2') {
+          // $projectsRenderer.renderTarget1.texture.flipX = true
+          child.material = new MeshBasicMaterial({
+            color: '#f2ddf8',
+            map: videoTextureScreenSaver,
+            // map: $projectsRenderer.renderTarget1.texture,
+          })
+        } else if (child.name == 'ScreenLaptop') {
+          child.material = new MeshBasicMaterial({
+            color: '#f2ddf8',
+            map: videoTextureScreenSaver,
+          })
+        }
+      } else {
+        if (
+          child.name == 'Screen' ||
+          child.name == 'Screen2' ||
+          child.name == 'ScreenLaptop'
+        ) {
+          // $projectsRenderer.renderTarget1.texture.flipX = true
+          child.material = new MeshBasicMaterial({
+            color: '#000000',
+          })
+        }
       }
 
       if (

@@ -70,7 +70,7 @@
           duration: 1,
         })
         gsap.to(groupRoom.position, {
-          x: 10,
+          x: 20,
           ease: 'Power4.easeOut',
           duration: 0.8,
           onComplete: () => {
@@ -82,13 +82,13 @@
   })
 
   $: if (renderer) {
-    renderer.physicallyCorrectLights = true
-    renderer.outputEncoding = sRGBEncoding
     renderer.toneMapping = CineonToneMapping
-    renderer.toneMappingExposure = 1.75
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = PCFSoftShadowMap
-    renderer.setSize($size.width, $size.height)
+    // renderer.physicallyCorrectLights = true
+    // renderer.outputEncoding = sRGBEncoding
+    // renderer.toneMappingExposure = 1.75
+    // renderer.shadowMap.enabled = true
+    // renderer.shadowMap.type = PCFSoftShadowMap
+    // renderer.setSize($size.width, $size.height)
   }
 </script>
 
@@ -130,7 +130,7 @@
       <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
     </T.DirectionalLight>
 
-    <Room />
+    <Room {isMobile} />
   </Float>
 </T>
 
