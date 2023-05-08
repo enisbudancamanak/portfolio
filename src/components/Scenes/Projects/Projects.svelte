@@ -132,6 +132,8 @@
     const scroller = new VirtualScroll()
     scroller.on((event) => {
       speed = event.deltaY * (isMobile ? 7 : 1)
+      speed = speed > 150 ? 150 : speed < -150 ? -150 : speed
+      console.log(speed)
     })
 
     createPlane()
