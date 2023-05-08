@@ -1,24 +1,21 @@
 <script lang="ts">
-  import { useFrame, T, useThrelte } from '@threlte/core'
+  import { T, useThrelte } from '@threlte/core'
   import {
     OrthographicCamera,
     sRGBEncoding,
     CineonToneMapping,
     PCFSoftShadowMap,
     Group,
-    AmbientLight,
   } from 'three'
 
   import { onMount } from 'svelte'
   import { beforeNavigate, goto } from '$app/navigation'
   import Room from './Room.svelte'
-  import { Float, Text, OrbitControls, GLTF } from '@threlte/extras'
+  import { Float, Text } from '@threlte/extras'
   import { gsap } from 'gsap'
-  import { degToRad } from 'three/src/math/MathUtils'
   import Postprocessing from '../../Postprocessing.svelte'
   import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
   import isMobile from '../../../mobile.store'
-  import Portal from 'svelte-portal'
 
   let groupRoom = new Group()
   let groupText = new Group()
@@ -30,14 +27,15 @@
   let cameraVariable: OrthographicCamera
 
   onMount(() => {
-    window.addEventListener('resize', () => {
-      aspect = $size.width / $size.height
-      cameraVariable.left = (-aspect * frustrum) / 2
-      cameraVariable.right = (aspect * frustrum) / 2
-      cameraVariable.top = frustrum / 2
-      cameraVariable.bottom = -frustrum / 2
-      cameraVariable.updateProjectionMatrix()
-    })
+    // window.addEventListener('resize', () => {
+    //   aspect = $size.width / $size.height
+    //   cameraVariable.left = (-aspect * frustrum) / 2
+    //   cameraVariable.right = (aspect * frustrum) / 2
+    //   cameraVariable.top = frustrum / 2
+    //   cameraVariable.bottom = -frustrum / 2
+    //   cameraVariable.updateProjectionMatrix()
+    // })
+
     gsap.from(groupText.position, {
       x: -20,
       ease: 'Power4.easeOut',
@@ -58,7 +56,7 @@
             y: 0,
             z: 0,
             ease: 'Power4.easeOut',
-            duration: 0.4,
+            duration: 1,
           },
           'start'
         )
@@ -69,25 +67,25 @@
             y: 0,
             z: 0,
             ease: 'Power4.easeOut',
-            duration: 0.4,
+            duration: 1,
           },
           'start'
         )
         timeline.to(
           groupText.position,
           {
-            x: -30,
+            x: -15,
             ease: 'Power4.easeOut',
-            duration: 0.8,
+            duration: 1.2,
           },
           'start'
         )
         timeline.to(
           groupRoom.position,
           {
-            x: 30,
+            x: 15,
             ease: 'Power4.easeOut',
-            duration: 0.8,
+            duration: 1.2,
             onComplete: () => {
               goto(navigation.to.route.id)
             },
@@ -97,7 +95,7 @@
       }
   })
 
-  $: if (renderer && $size) {
+  $: if (renderer) {
     renderer.outputEncoding = sRGBEncoding
     renderer.setSize($size.width, $size.height)
 
@@ -130,7 +128,7 @@
 <T
   is={groupRoom}
   scale={$isMobile ? 0.26 : 0.55}
-  position={[$isMobile ? 0 : 4, $isMobile ? 0 : 0.5, 0]}
+  position={[$isMobile ? 0 : 4.5, $isMobile ? 0 : 0.5, 0]}
   rotation={[0.3, -0.8, 0]}
 >
   <Float
