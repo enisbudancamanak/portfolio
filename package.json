@@ -39,10 +39,10 @@
     "postprocessing": "^6.30.2",
     "simplex-noise": "^4.0.1",
     "split-text-js": "^1.0.3",
+    "split-type": "^0.3.3",
     "svelte-portal": "^2.2.0",
     "TagCloud": "^2.3.2",
     "three": "^0.152.2",
-    "three-stdlib": "^2.21.10",
     "tweakpane": "^3.1.9",
     "virtual-scroll": "^2.2.1"
   }
