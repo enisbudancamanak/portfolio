@@ -50,7 +50,7 @@
 
   let isMobile = false
   onMount(() => {
-    document.getElementById('three').style.pointerEvents = 'none'
+    // document.getElementById('three').style.pointerEvents = 'none'
 
     isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -107,75 +107,96 @@
         clearInterval(interval)
       }
 
-      iteration += 1 / 5
-    }, 15)
+      iteration += 1 / 3
+    }, 30)
   }
 
+  let timelineIntro
   onMount(() => {
-    gsap.to(document.querySelector('#backgroundColorProjects'), {
-      backgroundColor: color,
-      duration: 1,
-      ease: 'Power4.out',
-    })
+    timelineIntro = gsap.timeline().add('start')
 
-    gsap.to(document.querySelector('#titleCard'), {
-      backgroundColor: color,
-      duration: 1,
-      ease: 'Power4.out',
-    })
+    timelineIntro.to(
+      [
+        document.querySelector('#backgroundColorProjects'),
+        document.querySelector('#titleCard'),
+      ],
+      {
+        backgroundColor: color,
+        duration: 1,
+        ease: 'Power4.out',
+      },
+      'start'
+    )
 
-    gsap.from(document.querySelector('#titleCard'), {
-      top: '-100%',
-      duration: 1,
-      ease: 'Power3.easeOut',
-    })
+    timelineIntro.from(
+      document.querySelector('#titleCard'),
+      {
+        top: '-100%',
+        duration: 1,
+        ease: 'Power3.easeOut',
+      },
+      'start'
+    )
+    timelineIntro.to(
+      document.querySelector('#detailsCard'),
+      {
+        left: '-90%',
+        ease: 'Power4.in',
+        duration: 1,
+      },
+      'start'
+    )
 
-    gsap.to(document.querySelector('#backToProjects'), {
-      opacity: '1',
-      duration: 1,
-      ease: 'Power3.easeIn',
-    })
+    timelineIntro.to(
+      document.querySelector('#backToProjects'),
+      {
+        opacity: '1',
+        ease: 'Power4.in',
+        delay: 0.5,
+        duration: 0.4,
+      },
+      'start'
+    )
 
-    gsap.to(document.querySelector('#detailsCard'), {
-      left: '-90%',
-      ease: 'Power2.easeOut',
-      duration: 1,
-    })
-
-    gsap.from(document.querySelector('#title'), {
-      opacity: 0,
-      ease: 'Power4.in',
-      delay: 0,
-      duration: 1,
-    })
-
-    gsap.from(document.querySelectorAll('.links'), {
-      opacity: 0,
-      ease: 'Power4.in',
-      delay: 1,
-      duration: 1,
-    })
+    timelineIntro.from(
+      document.querySelectorAll('.links'),
+      {
+        opacity: 0,
+        ease: 'Power4.in',
+        delay: 1,
+        duration: 0.5,
+      },
+      'start'
+    )
   })
 
   function outroAnimation(path) {
     outro = true
 
+    timelineIntro.pause()
     gsap.to(document.querySelector('#titleCard'), {
       top: '-10%',
-      duration: 1,
+      duration: 0.7,
       ease: 'Power4.easeOut',
+      delay: 0.2,
+    })
+
+    gsap.to(document.querySelector('#detailsCard'), {
+      left: '-101%',
+      ease: 'Power2.easeOut',
+      duration: 0.2,
+    })
+
+    gsap.to(document.querySelector('.btm-nav'), {
+      translateY: '105%',
+      ease: 'Power2.easeOut',
+      duration: 0.3,
     })
 
     gsap.to(document.querySelector('#backToProjects'), {
-      opacity: 0,
+      opacity: '0',
       duration: 0.3,
-      ease: 'Power4.easeOut',
-    })
-
-    gsap.to(document.querySelector('#title'), {
-      opacity: 0,
-      ease: 'Power4.out',
-      duration: 0.5,
+      ease: 'Power2.easeOut',
     })
 
     gsap.to(document.querySelectorAll('.links'), {
@@ -191,18 +212,6 @@
       duration: 0.5,
     })
 
-    gsap.to(document.querySelector('#detailsCard'), {
-      left: '-101%',
-      ease: 'Power2.easeOut',
-      duration: 0.3,
-    })
-
-    gsap.to(document.querySelector('.btm-nav'), {
-      translateY: '105%',
-      ease: 'Power2.easeOut',
-      duration: 0.3,
-    })
-
     gsap.to(document.querySelectorAll('h4'), {
       opacity: 0,
       stagger: 0.05,
@@ -212,8 +221,8 @@
 
     gsap.to(document.querySelector('#backgroundColorProjects'), {
       backgroundColor: '#151517',
-      duration: 0.8,
-      ease: 'Sine.easeIn',
+      duration: 0.7,
+      ease: '"slow(0.7, 0.7, false)"',
       onComplete: () => {
         if (!path) goto('/projects')
         else goto(path)
@@ -600,6 +609,7 @@
 
 <Portal target="#backgroundColorProjects">
   <div
+    id="frontElement"
     class=" flex w-screen h-screen absolute bg-[#151517]/90 gap-8 pr-6 overflow-x-hidden md:flex-nowrap flex-wrap"
   />
 </Portal>

@@ -8,12 +8,11 @@
 
   let pictures = [
     '/pictures/projects/shioriList/2.png',
-    '/pictures/projects/shioriList/3.png',
     '/pictures/projects/shioriList/1.png',
+    '/pictures/projects/shioriList/3.png',
     '/pictures/projects/shioriList/4.png',
     '/pictures/projects/shioriList/5.png',
     '/pictures/projects/shioriList/6.png',
-    '/pictures/projects/shioriList/7.png',
   ]
   let video = null
   let gameVideo = null

@@ -14,10 +14,7 @@
   <title>PORTFOLIO</title>
 </svelte:head>
 
-<div
-  id="three"
-  class="w-screen h-screen overflow-hidden absolute bg-transparent z-[9999]"
->
+<div class="w-screen h-screen overflow-hidden absolute bg-transparent z-[9999]">
   <Canvas>
     {#if $assets && $gltfRoom}
       <slot />

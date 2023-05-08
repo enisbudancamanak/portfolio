@@ -14,6 +14,7 @@
   import { gltfRoom, firstTimeLoad } from '../../../stores.js'
   import { beforeNavigate } from '$app/navigation'
   import { useGltf, useSuspense } from '@threlte/extras'
+  import { assets } from '../../../stores'
 
   let pointerX = 0
   let pointerY = 0
@@ -23,6 +24,7 @@
   let videoTexturePacMan
   let screenSaverVideo
   let videoTextureScreenSaver
+
   const offsetX = spring(pointerX * 0.03)
   $: offsetX.set(pointerX * 0.03)
   const offsetY = spring(pointerY * 0.03)
@@ -57,13 +59,8 @@
       z: 0.88,
       duration: 1.2,
       ease: 'Power4.out',
+      delay: 0.3,
     })
-
-    // gsap.from(model.scene.position, {
-    //   x: 20,
-    //   ease: 'Power4.easeOut',
-    //   duration: 2,
-    // })
   }
 
   onMount(() => {
@@ -78,24 +75,18 @@
     tekkenVideo.play()
     videoTextureTekken = new VideoTexture(tekkenVideo)
     videoTextureTekken.flipY = false
-    videoTextureTekken.minFilter = NearestFilter
-    videoTextureTekken.magFilter = NearestFilter
     videoTextureTekken.generateMipmaps = false
     videoTextureTekken.encoding = sRGBEncoding
     pacManVideo = document.getElementById('pacManGameplay')
     pacManVideo.play()
     videoTexturePacMan = new VideoTexture(pacManVideo)
     videoTexturePacMan.flipY = false
-    videoTexturePacMan.minFilter = NearestFilter
-    videoTexturePacMan.magFilter = NearestFilter
     videoTexturePacMan.generateMipmaps = false
     videoTexturePacMan.encoding = sRGBEncoding
     screenSaverVideo = document.getElementById('screenSaverPurple')
     // screenSaverVideo.play()
     videoTextureScreenSaver = new VideoTexture(screenSaverVideo)
     videoTextureScreenSaver.flipY = false
-    videoTextureScreenSaver.minFilter = NearestFilter
-    videoTextureScreenSaver.magFilter = NearestFilter
     videoTextureScreenSaver.generateMipmaps = false
     videoTextureScreenSaver.encoding = sRGBEncoding
   })
@@ -152,6 +143,7 @@
           map: videoTextureScreenSaver,
         })
       }
+
       if (
         child.name == 'Screen' ||
         child.name == 'Monitor' ||
@@ -188,12 +180,8 @@
       if (element.name == 'Floor') {
         element.material = new MeshPhysicalMaterial({
           color: '#000000', //82007F
-          map: new TextureLoader().load(
-            '/textures/blackwood/black-parquet.jpg'
-          ),
-          normalMap: new TextureLoader().load(
-            '/textures/blackwood/NormalMap.png'
-          ),
+          map: $assets['/textures/blackwood/black-parquet.jpg'],
+          normalMap: $assets['/textures/blackwood/NormalMap.png'],
         })
         return
       }
@@ -268,18 +256,9 @@
     is={model.scene}
     rotation={[$offsetY, $offsetX, -$offsetY]}
     position={[0, -2.5, 0]}
+    scale={0}
   />
 {/if}
-
-<!-- {#if $gltfRoom}
-  <T.Object3DInstance
-    object={$gltfRoom.scene}
-    position={{ x: 0, y: -2.5, z: 0 }}
-    rotation={{ x: $offsetY, y: $offsetX, z: -$offsetY }}
-    scale={{ x: 0, y: 0, z: 0 }}
-    castShadow
-  />
-{/if} -->
 
 <video
   id="tekkenGameplay"

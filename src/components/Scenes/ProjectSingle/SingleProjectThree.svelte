@@ -20,6 +20,7 @@
   const { size, renderer, camera, scene } = useThrelte()
   import gsap from 'gsap'
   import { assets } from '../../../stores'
+  import { dragControls, mouseDown } from '../../../dragControls'
 
   export let pictures
   export let titlePicture
@@ -42,14 +43,13 @@
     ref.children[0].children.forEach((mesh) => {
       gsap.to(mesh.material.uniforms.uOffset, {
         value: -0.05,
-        duration: 2,
+        duration: 1,
         ease: 'Sine.easeOut',
-        delay: 0.1,
       })
     })
     gsap.to(ref.children[0].position, {
       y: -5,
-      duration: 0.7,
+      duration: 0.55,
       ease: 'Power2.easeIn',
       // delay: 0.2,
     })
@@ -57,7 +57,12 @@
 
   export const ref = new GroupThree()
 
+  function dragAction(deltaX, deltaY, object) {
+    speed += deltaY / 2
+  }
   onMount(() => {
+    dragControls(document.querySelector('#frontElement'), dragAction)
+
     if (video) {
       let websiteVideo = document.getElementById('websiteVideo')
       websiteVideo.play()
@@ -77,7 +82,7 @@
 
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY * (isMobile ? 3 : 1)
+      speed = event.deltaY
     })
 
     createPlane()
@@ -111,10 +116,10 @@
 
     let rounded = Math.round(position)
     let diff = rounded - position
-    position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
+    if (!mouseDown)
+      position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
 
     if (!outro) infinitePictures()
-
     if (rgbEffectFinished && !outro) updatePlaneTexture()
   })
 
@@ -158,7 +163,7 @@
       speedLerp = lerp(speedLerp, targetSpeed, 0.1)
       ref.children[0].children.forEach((mesh) => {
         mesh.material.uniforms.uOffset.value =
-          (targetSpeed - speedLerp) * -0.0009
+          (targetSpeed - speedLerp) * -0.0012
       })
     }
   }
@@ -300,12 +305,6 @@
     </T>
   </T.Layers>
 </div>
-
-<!-- <div class="images">
-  {#each pictures as picture}
-    <img class="imageTexture" src={picture} alt="" srcset="" />
-  {/each}
-</div> -->
 
 {#if video}
   <video

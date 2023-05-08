@@ -6,14 +6,14 @@
     Vector4,
     PlaneGeometry,
     Group,
-    Float32BufferAttribute,
     Vector2,
     TextureLoader,
     Color,
-    MeshBasicMaterial,
     Mesh as MeshThree,
+    Float32BufferAttribute,
   } from 'three'
-  import { OrbitControls, Text } from '@threlte/extras'
+  import gsap from 'gsap'
+  import { Float, Text } from '@threlte/extras'
   import VirtualScroll from 'virtual-scroll'
   import { onMount } from 'svelte'
   import fragment from '../../shaders/fragmentText.glsl'
@@ -23,8 +23,7 @@
   import { assets } from '../../../stores'
   import { interactivity } from '@threlte/extras'
   interactivity()
-
-  import gsap from 'gsap'
+  import { dragControls, mouseDown } from '../../../dragControls'
   import { beforeNavigate, goto } from '$app/navigation'
   import { positionProjects } from '../../../stores'
 
@@ -41,10 +40,6 @@
         outgoingAnimation(navigation.to.route.id)
       }
   })
-
-  // beforeNavigate(() => {
-  //   composer?.dispose()
-  // })
 
   export const scene1 = scene
   export const camera1 = $camera
@@ -126,12 +121,17 @@
   let transitionOn = false
   let entryAnimationCheck = false
 
+  function dragAction(deltaX, deltaY, object) {
+    speed += deltaY / 2
+  }
+
   onMount(() => {
+    dragControls(renderer?.domElement, dragAction)
+
     // composer?.removePass()
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      // position = event.y / 4000
-      speed = event.deltaY * (isMobile ? 3 : 1)
+      speed = event.deltaY
     })
 
     createPlane()
@@ -146,7 +146,8 @@
 
       let rounded = Math.round(position)
       let diff = rounded - position
-      position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
+      if (!mouseDown)
+        position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
 
       if (!transitionOn) {
         ref1.children[0].children.forEach((text, i) => {
@@ -159,6 +160,7 @@
     updatePlaneTexture()
   })
 
+  let timelineIntro
   function entryAnimation() {
     let margin = 0.16
     let wholeHeight = projectTitles.length * margin
@@ -170,68 +172,99 @@
         wholeHeight / 2
     })
 
+    timelineIntro = gsap.timeline().add('start')
     ref1.children[0].children.forEach((text, i) => {
       let index = Math.round(position + 100000000) % textures.length
 
       if (i != index) {
         if (text.position.y > 0.5) {
-          gsap.from(text._baseMaterial.uniforms.uSpeed, {
-            value: '-2000',
-            duration: 2.5,
-            delay: 0.5,
-            ease: 'power3.out',
-          })
-          gsap.from(text.position, {
-            y: '+=1.8',
-            duration: 2,
-            ease: 'power4.out',
-            delay: 1,
-          })
+          timelineIntro.from(
+            text._baseMaterial.uniforms.uSpeed,
+            {
+              value: '-2000',
+              duration: 2,
+              ease: 'power3.out',
+            },
+            'start'
+          )
+          timelineIntro.from(
+            text.position,
+            {
+              y: '+=1.8',
+              duration: 2,
+              ease: 'power4.out',
+              delay: 0.3,
+            },
+            'start'
+          )
         }
         if (text.position.y < 0.5) {
-          gsap.from(text._baseMaterial.uniforms.uSpeed, {
-            value: '2000',
-            duration: 2.5,
-            delay: 0.5,
-            ease: 'power3.out',
-            onComplete: () => {
-              entryAnimationCheck = true
+          timelineIntro.from(
+            text._baseMaterial.uniforms.uSpeed,
+            {
+              value: '2000',
+              duration: 2,
+              ease: 'power3.out',
+              onComplete: () => {
+                entryAnimationCheck = true
+              },
             },
-          })
-          gsap.from(text.position, {
-            y: '-=1.8',
-            duration: 2,
-            ease: 'power4.out',
-            delay: 1,
-          })
+            'start'
+          )
+          timelineIntro.from(
+            text.position,
+            {
+              y: '-=1.8',
+              duration: 2,
+              ease: 'power4.out',
+              delay: 0.3,
+            },
+            'start'
+          )
         }
       } else {
-        gsap.from(text._baseMaterial.uniforms.opacity, {
-          value: '0',
-          duration: 0.5,
-          delay: 1,
-          ease: 'power2.in',
-        })
-        gsap.from(pictureMesh.rotation, {
-          y: -1 * Math.PI,
-          duration: 1.2,
-          delay: 0.6,
-          ease: 'power2.out',
-        })
-        gsap.from(planeMaterial.uniforms.opacity, {
-          value: '0',
-          duration: 1.1,
-          delay: 0.7,
-          ease: 'power2.out',
-        })
-        gsap.from(pictureMesh.scale, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 1.2,
-          delay: 0.6,
-          ease: 'power2.out',
-        })
+        timelineIntro.from(
+          text._baseMaterial.uniforms.opacity,
+          {
+            value: '0',
+            duration: 0.5,
+            delay: 0.5,
+            ease: 'power2.in',
+          },
+          'start'
+        )
+        timelineIntro.from(
+          pictureMesh.rotation,
+          {
+            y: -1 * Math.PI,
+            duration: 1.2,
+            delay: 0.1,
+            ease: 'power2.out',
+          },
+          'start'
+        )
+        timelineIntro.from(
+          planeMaterial.uniforms.opacity,
+          {
+            value: '0',
+            duration: 1.1,
+            delay: 0.2,
+            ease: 'power2.out',
+          },
+          'start'
+        )
+        timelineIntro.from(
+          pictureMesh.scale,
+          {
+            x: 0,
+            y: 0,
+            z: 0,
+            duration: 1.2,
+            delay: 0.1,
+            ease: 'power2.out',
+          },
+          'start'
+        )
       }
     })
   }
@@ -308,6 +341,10 @@
           duration: 0.3,
           delay: 0.5,
           ease: 'power2.out',
+          onComplete: () => {
+            if (!path) gotoProject()
+            else goto(path)
+          },
         })
 
         gsap.to(planeMaterial.uniforms.opacity, {
@@ -329,10 +366,6 @@
           duration: 0.7,
           delay: 0.5,
           ease: 'power2.out',
-          onComplete: () => {
-            if (!path) gotoProject()
-            else goto(path)
-          },
         })
       }
     })
@@ -438,19 +471,6 @@
 </script>
 
 <div>
-  <T.PerspectiveCamera
-    makeDefault
-    position={[0, 0, 5]}
-    fov={Math.max(
-      30,
-      2 *
-        Math.atan(1.2 / ($size.width / $size.height) / (2 * 2)) *
-        (180 / Math.PI)
-    )}
-  >
-    <OrbitControls enableZoom={false} enableRotate={false} />
-  </T.PerspectiveCamera>
-
   <T.Layers layers={'all'}>
     <T.Group>
       <T is={ref1}>
@@ -483,30 +503,37 @@
         </T.Group>
       </T>
 
-      {#if planeMaterial}
+      <!-- {#if planeMaterial}
         <T.Group rotation={[0, 0, 0.1 * Math.sin(position * 0.5)]}>
-          <!-- <Mesh
-                scale={1.5}
-                position={{ x: -0.35, y: -0.05 }}
-                rotation={{ y: position * 2 * Math.PI }}
-                geometry={geometryPlane}
-                material={planeMaterial}
-              /> -->
+          <Mesh
+            scale={1.5}
+            position={{ x: -0.35, y: -0.05 }}
+            rotation={{ y: position * 2 * Math.PI }}
+            geometry={geometryPlane}
+            material={planeMaterial}
+          />
         </T.Group>
-      {/if}
+      {/if} -->
     </T.Group>
 
-    <T is={pictureMesh}>
-      <T.Mesh
-        geometry={geometryPlane}
-        material={planeMaterial}
-        scale={1.5}
-        interactive
-        on:pointerenter={textHover}
-        on:pointerleave={unhoverText}
-        on:pointerdown={outgoingAnimation}
-      />
-    </T>
+    <Float
+      speed={1.5}
+      rotationIntensity={0.3}
+      rotationSpeed={1.5}
+      floatingRange={[0.05, 0.01]}
+    >
+      <T is={pictureMesh}>
+        <T.Mesh
+          geometry={geometryPlane}
+          material={planeMaterial}
+          scale={1.5}
+          interactive
+          on:pointerenter={textHover}
+          on:pointerleave={unhoverText}
+          on:pointerup={outgoingAnimation}
+        />
+      </T>
+    </Float>
   </T.Layers>
 </div>
 

@@ -1,12 +1,11 @@
 <script>
   import { onMount } from 'svelte'
-  import { useLoader } from '@threlte/core'
   import Scene from './Projects.svelte'
-  import { T } from '@threlte/core'
-  // import RipplePass from '../Effects/Ripples/RipplePass.svelte'
-  // import Distortion from '../Effects/Distortion/DistortionPass.svelte'
+  import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
   import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader'
-  import { TextureLoader } from 'three'
+  import DistortionPass from '../../Effects/Distortion/DistortionPass.svelte'
+  import { T, useThrelte } from '@threlte/core'
+  const { size } = useThrelte()
 
   let scene1
   let camera1
@@ -42,15 +41,23 @@
   // })
 
   onMount(() => {
-    document.getElementById('three').style.pointerEvents = 'all'
+    // document.getElementById('three').style.pointerEvents = 'all'
   })
 </script>
 
 <div class="w-screen h-screen">
   <Scene {isMobile} />
-
+  <T.PerspectiveCamera
+    makeDefault
+    position={[0, 0, 5]}
+    fov={Math.max(
+      30,
+      2 *
+        Math.atan(1.2 / ($size.width / $size.height) / (2 * 2)) *
+        (180 / Math.PI)
+    )}
+  />
   <!-- EFFECTS -->
-  <!-- <Distortion progress={distortion} /> -->
   <!-- <RipplePass /> -->
 </div>
 

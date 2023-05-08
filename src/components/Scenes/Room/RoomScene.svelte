@@ -15,6 +15,8 @@
   import { Float, Text, OrbitControls, GLTF } from '@threlte/extras'
   import { gsap } from 'gsap'
   import { degToRad } from 'three/src/math/MathUtils'
+  import Postprocessing from '../../Postprocessing.svelte'
+  import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
 
   export let isMobile
 
@@ -56,13 +58,6 @@
           ease: 'Power4.easeOut',
           duration: 3,
         })
-        // gsap.to([groupRoom.scale, groupText.scale], {
-        //   x: 0,
-        //   y: 0,
-        //   z: 0,
-        //   duration: 1,
-        //   ease: 'Power4.in',
-        // })
       }
   })
 
@@ -77,6 +72,10 @@
   }
 </script>
 
+{#if !isMobile}
+  <Postprocessing />
+{/if}
+
 <T.OrthographicCamera
   left={-1.2}
   right={1.2}
@@ -86,13 +85,12 @@
   bind:ref={cameraVariable}
   position={[0, 0, 20]}
   zoom="100"
->
-  <OrbitControls />
-</T.OrthographicCamera>
+/>
+
 <T.AmbientLight intensity={1} color="#c2c3d1" />
 <T
   is={groupRoom}
-  scale={isMobile ? 0.32 : 0.55}
+  scale={isMobile ? 0.26 : 0.55}
   position={[isMobile ? 0 : 4, isMobile ? 0 : 0.5, 0]}
   rotation={[0.3, -0.8, 0]}
 >
@@ -116,11 +114,8 @@
   </Float>
 </T>
 
-<T is={groupText}>
-  <T.Group
-    scale={isMobile ? 1 : 2}
-    position={[isMobile ? -2.15 : -8, isMobile ? 3 : 2, 0]}
-  >
+<T is={groupText} scale={isMobile ? 0.9 : 2}>
+  <T.Group position={[isMobile ? -2.15 : -4, isMobile ? 2.7 : 1.1, 0]}>
     <Text
       text={'FRONT END DEVELOPER WHO LOVES TO BUILD BEAUTIFUL WEB EXPERIENCES'}
       color="#ffffff"

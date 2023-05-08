@@ -40,13 +40,13 @@
 </script>
 
 <div
-  class="z-[999999999999999999] fixed top-10 right-6 font-bebasNeue tracking-widest text-center text-sm text-gray-200 flex flex-col gap-1"
+  class="z-[999999999999999999999999] fixed top-10 right-6 font-bebasNeue tracking-widest text-center text-sm text-gray-200 flex flex-col gap-1"
 >
   <p
     on:mousedown={() => {
       goto('/')
     }}
-    class="magnetic cursor-pointer"
+    class="cursor-pointer magnetic"
   >
     home
   </p>
@@ -54,7 +54,7 @@
     on:mousedown={() => {
       goto('/projects')
     }}
-    class="magnetic cursor-pointer"
+    class="cursor-pointer magnetic"
   >
     projects
   </p>
@@ -62,7 +62,7 @@
     on:mousedown={() => {
       goto('/about')
     }}
-    class="magnetic cursor-pointer"
+    class="cursor-pointer magnetic"
   >
     about
   </p>

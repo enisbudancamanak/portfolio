@@ -4,6 +4,7 @@
 
   onMount(() => {
     const blob = document.getElementById('blob')
+
     window.onpointermove = (event) => {
       const { clientX, clientY } = event
       blob.animate(

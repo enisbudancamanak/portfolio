@@ -45,7 +45,7 @@
 
 <Portal>
   <div
-    class="invisible sm:visible absolute right-0 w-max h-screen flex items-center py-8 z-[99999] transition-all duration-200"
+    class="invisible sm:visible fixed right-0 w-max h-screen flex items-center py-8 z-[99999] transition-all duration-200"
   >
     <div
       on:mousedown={gotoNext}
