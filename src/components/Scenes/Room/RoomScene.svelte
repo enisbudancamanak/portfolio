@@ -1,22 +1,13 @@
 <script lang="ts">
-  import { useFrame, T, useThrelte } from '@threlte/core'
-  import {
-    OrthographicCamera,
-    sRGBEncoding,
-    CineonToneMapping,
-    PCFSoftShadowMap,
-    Group,
-    AmbientLight,
-  } from 'three'
+  import { T, useThrelte } from '@threlte/core'
+  import { OrthographicCamera, CineonToneMapping, Group } from 'three'
 
   import { onMount } from 'svelte'
   import { beforeNavigate, goto } from '$app/navigation'
   import Room from './Room.svelte'
-  import { Float, Text, OrbitControls, GLTF } from '@threlte/extras'
+  import { Float, Text } from '@threlte/extras'
   import { gsap } from 'gsap'
-  import { degToRad } from 'three/src/math/MathUtils'
   import Postprocessing from '../../Postprocessing.svelte'
-  import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
 
   export let isMobile
 
@@ -108,7 +99,7 @@
 />
 
 <T.AmbientLight intensity={1} color="#c2c3d1" />
-<T
+<!-- <T
   is={groupRoom}
   scale={isMobile ? 0.26 : 0.55}
   position={[isMobile ? 0 : 4, isMobile ? 0 : 0.5, 0]}
@@ -134,7 +125,7 @@
 
     <Room {isMobile} />
   </Float>
-</T>
+</T> -->
 
 <T is={groupText} scale={isMobile ? 0.9 : 2}>
   <T.Group position={[isMobile ? -2.15 : -4, isMobile ? 2.7 : 1.1, 0]}>
