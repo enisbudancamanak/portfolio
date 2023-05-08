@@ -105,14 +105,18 @@
   position={[isMobile ? 0 : 4, isMobile ? 0 : 0.5, 0]}
   rotation={[0.3, -0.8, 0]}
 >
-  {#if !isMobile}
-    <Float speed={2} rotationIntensity={0.25} rotationSpeed={2}>
-      <T.DirectionalLight
-        castShadow
-        position={[5, 10, 5]}
-        color="#ffffff"
-        intensity="3"
-      >
+  <Float
+    speed={!isMobile ? 2 : 0}
+    rotationIntensity={!isMobile ? 0.25 : 0}
+    rotationSpeed={!isMobile ? 2 : 0}
+  >
+    <T.DirectionalLight
+      castShadow
+      position={[5, 10, 5]}
+      color="#ffffff"
+      intensity="3"
+    >
+      {#if !isMobile}
         <T.PerspectiveCamera
           attach="shadow.camera"
           near={0.1}
@@ -120,13 +124,17 @@
           bias={-0.0005}
         />
         <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
-      </T.DirectionalLight>
+      {/if}
+    </T.DirectionalLight>
 
-      <Room {isMobile} />
-    </Float>
-  {:else}
     <Room {isMobile} />
-  {/if}
+  </Float>
+  <T.DirectionalLight
+    castShadow
+    position={[5, 10, 5]}
+    color="#ffffff"
+    intensity="3"
+  />
 </T>
 
 <T is={groupText} scale={isMobile ? 0.9 : 2}>
