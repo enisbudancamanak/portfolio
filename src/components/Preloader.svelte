@@ -12,7 +12,6 @@
 
   // GLTF
   const suspend = useSuspense()
-
   const gltf = suspend(
     useGltf('/models/arcadeRoomDraco.glb', {
       useDraco: true,

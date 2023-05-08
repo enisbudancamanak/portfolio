@@ -5,16 +5,22 @@
   onMount(() => {
     const blob = document.getElementById('blob')
 
-    window.onpointermove = (event) => {
-      const { clientX, clientY } = event
-      blob.animate(
-        {
-          left: `${clientX}px`,
-          top: `${clientY}px`,
-        },
-        { duration: 10, fill: 'forwards' }
+    let isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
       )
-    }
+
+    if (!isMobile)
+      window.onpointermove = (event) => {
+        const { clientX, clientY } = event
+        blob.animate(
+          {
+            left: `${clientX}px`,
+            top: `${clientY}px`,
+          },
+          { duration: 10, fill: 'forwards' }
+        )
+      }
 
     gsap.from('#blob', {
       opacity: 0,
