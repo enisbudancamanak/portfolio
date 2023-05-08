@@ -21,12 +21,12 @@
   import gsap from 'gsap'
   import { assetsProjectsSingle as assets } from '../../../stores'
   import { dragControls, mouseDown } from '../../../dragControls'
+  import isMobile from '../../../mobile.store'
 
   export let pictures
   export let titlePicture
   export let video
   export let gameVideo
-  export let isMobile
 
   let position = 0
   let speed = 0
@@ -82,7 +82,7 @@
 
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY * (isMobile ? 3 : 1)
+      speed = event.deltaY * ($isMobile ? 3 : 1)
     })
 
     createPlane()
@@ -116,7 +116,7 @@
 
     let rounded = Math.round(position)
     let diff = rounded - position
-    if (!mouseDown && (isMobile ? speed < 5 && speed > -5 : true))
+    if (!mouseDown && ($isMobile ? speed < 5 && speed > -5 : true))
       position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
 
     if (!outro) infinitePictures()
@@ -172,7 +172,7 @@
 <div>
   <T.PerspectiveCamera
     makeDefault
-    position={[0.05, isMobile ? 0.4 : 0.32, isMobile ? 4.3 : 5]}
+    position={[0.05, $isMobile ? 0.4 : 0.32, $isMobile ? 4.3 : 5]}
     fov={Math.max(
       24,
       2 *

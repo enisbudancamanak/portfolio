@@ -26,6 +26,7 @@
   import { dragControls, mouseDown } from '../../../dragControls'
   import { beforeNavigate, goto } from '$app/navigation'
   import { positionProjects } from '../../../stores'
+  import isMobile from '../../../mobile.store'
 
   export const { scene, renderer, size, camera } = useThrelte()
 
@@ -43,7 +44,6 @@
 
   export const scene1 = scene
   export const camera1 = $camera
-  export let isMobile
 
   let projectTitles = [
     'SIN OF SLOTH',
@@ -131,7 +131,7 @@
     // composer?.removePass()
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY * (isMobile ? 7 : 1)
+      speed = event.deltaY * ($isMobile ? 7 : 1)
       speed = speed > 150 ? 150 : speed < -150 ? -150 : speed
     })
 

@@ -8,6 +8,7 @@
   import Portal from 'svelte-portal'
   import { positionProjects } from '../../../stores'
   import { fade, fly } from 'svelte/transition'
+  import isMobile from '../../../mobile.store'
 
   export let title
   export let type
@@ -47,26 +48,6 @@
     positionProjects.set(nextIndex)
     goto('/projects/' + projects[checkIndex])
   }
-
-  let isMobile = true
-  onMount(() => {
-    // document.getElementById('three').style.pointerEvents = 'none'
-
-    isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-    window.addEventListener('resize', () => {
-      if (
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        ) &&
-        (window.innerWidth > 0 ? window.innerWidth : screen.width) < 1280
-      )
-        isMobile = true
-      else isMobile = false
-    })
-  })
 
   let animateTime = false
   beforeNavigate((navigation) => {
@@ -296,10 +277,10 @@
   <!-- Put this part before </body> tag -->
   <input type="checkbox" id="modal-details" class="modal-toggle" />
   <label for="modal-details" class="modal cursor-pointer z-[99999999999999]">
-    <label class="modal-box relative" for="">
+    <label class="relative modal-box" for="">
       <label
         for="modal-details"
-        class="btn btn-sm btn-circle absolute right-2 top-2">✕</label
+        class="absolute btn btn-sm btn-circle right-2 top-2">✕</label
       >
       <div class="flex flex-col gap-8">
         <div class="flex gap-24">
@@ -309,7 +290,7 @@
             >
               Type
             </h3>
-            <h4 class="tracking-wide text-white text-sm font-quicksand">
+            <h4 class="text-sm tracking-wide text-white font-quicksand">
               {type}
             </h4>
           </div>
@@ -319,7 +300,7 @@
             >
               Completed
             </h3>
-            <h4 class="tracking-wide text-white text-sm font-quicksand">
+            <h4 class="text-sm tracking-wide text-white font-quicksand">
               {completed}
             </h4>
           </div>
@@ -330,7 +311,7 @@
           >
             Client
           </h3>
-          <h4 class="tracking-wide text-white text-sm font-quicksand">
+          <h4 class="text-sm tracking-wide text-white font-quicksand">
             {client}
           </h4>
         </div>
@@ -397,7 +378,7 @@
     </div>
   </div>
 
-  {#if !isMobile}
+  {#if !$isMobile}
     <div
       id="detailsPosition"
       class="absolute w-max h-screen flex flex-col justify-between py-8 top-0 left-0 z-[9999999999]"
@@ -555,7 +536,7 @@
             /></svg
           >
 
-          <span class="btm-nav-label font-bebasNeue tracking-wide font-medium"
+          <span class="font-medium tracking-wide btm-nav-label font-bebasNeue"
             >VISIT SITE</span
           >
         </a>
@@ -564,7 +545,7 @@
       <button class="text-[var(--color)]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
+          class="w-6 h-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -577,13 +558,13 @@
         >
         <label
           for="modal-details"
-          class="btm-nav-label font-bebasNeue tracking-wide font-medium"
+          class="font-medium tracking-wide btm-nav-label font-bebasNeue"
           >DETAILS</label
         >
       </button>
       <button on:click={gotoNext} class="text-[var(--color)]">
         <svg
-          class="h-5 w-5"
+          class="w-5 h-5"
           viewBox="0 0 24 24"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
@@ -599,7 +580,7 @@
           <path stroke-linecap="round" d="M19 5l-1 1" />
           <path d="M18 6L5 19" />
         </svg>
-        <span class="btm-nav-label font-bebasNeue tracking-wide font-medium"
+        <span class="font-medium tracking-wide btm-nav-label font-bebasNeue"
           >NEXT PROJECT</span
         >
       </button>
@@ -614,14 +595,7 @@
   />
 </Portal>
 
-<SingleProjectThree
-  bind:outro
-  {pictures}
-  {video}
-  {gameVideo}
-  {titlePicture}
-  {isMobile}
-/>
+<SingleProjectThree bind:outro {pictures} {video} {gameVideo} {titlePicture} />
 
 <!-- <div
     class="absolute w-screen flex flex-col h-screen pl-6 lg:pl-[5%] gap-5 justify-between py-8 md:w-auto z-[99999999999999999999999]"

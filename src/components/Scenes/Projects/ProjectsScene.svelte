@@ -10,23 +10,6 @@
   let scene1
   let camera1
 
-  let isMobile = true
-  onMount(() => {
-    isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-    window.addEventListener('resize', () => {
-      if (
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        ) &&
-        (window.innerWidth > 0 ? window.innerWidth : screen.width) < 1280
-      )
-        isMobile = true
-      else isMobile = false
-    })
-  })
   // let shader = RGBShiftShader
   // shader.uniforms.amount.value = 0.0008
 
@@ -46,7 +29,7 @@
 </script>
 
 <div class="w-screen h-screen">
-  <Scene {isMobile} />
+  <Scene />
   <T.PerspectiveCamera
     makeDefault
     position={[0, 0, 5]}

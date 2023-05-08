@@ -17,8 +17,8 @@
   import { degToRad } from 'three/src/math/MathUtils'
   import Postprocessing from '../../Postprocessing.svelte'
   import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
-
-  export let isMobile
+  import isMobile from '../../../mobile.store'
+  import Portal from 'svelte-portal'
 
   let groupRoom = new Group()
   let groupText = new Group()
@@ -48,8 +48,8 @@
   beforeNavigate((navigation) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
-        // if (isMobile) {
-        // } else if (!isMobile) {
+        // if ($isMobile) {
+        // } else if (!$isMobile) {
         let timeline = gsap.timeline().add('start')
         timeline.to(
           groupText.scale,
@@ -97,18 +97,21 @@
       }
   })
 
-  $: if (!isMobile && renderer) {
-    renderer.physicallyCorrectLights = true
+  $: if (renderer && $size) {
     renderer.outputEncoding = sRGBEncoding
-    renderer.toneMapping = CineonToneMapping
-    renderer.toneMappingExposure = 1.75
-    renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = PCFSoftShadowMap
     renderer.setSize($size.width, $size.height)
+
+    if (!$isMobile) {
+      renderer.physicallyCorrectLights = true
+      renderer.toneMapping = CineonToneMapping
+      renderer.toneMappingExposure = 1.75
+      renderer.shadowMap.enabled = true
+      renderer.shadowMap.type = PCFSoftShadowMap
+    }
   }
 </script>
 
-{#if !isMobile}
+{#if !$isMobile}
   <Postprocessing />
 {/if}
 
@@ -126,14 +129,14 @@
 <T.AmbientLight intensity={1} color="#c2c3d1" />
 <T
   is={groupRoom}
-  scale={isMobile ? 0.26 : 0.55}
-  position={[isMobile ? 0 : 4, isMobile ? 0 : 0.5, 0]}
+  scale={$isMobile ? 0.26 : 0.55}
+  position={[$isMobile ? 0 : 4, $isMobile ? 0 : 0.5, 0]}
   rotation={[0.3, -0.8, 0]}
 >
   <Float
-    speed={isMobile ? 0 : 2}
-    rotationIntensity={isMobile ? 0 : 0.25}
-    rotationSpeed={isMobile ? 0 : 2}
+    speed={$isMobile ? 0 : 2}
+    rotationIntensity={$isMobile ? 0 : 0.25}
+    rotationSpeed={$isMobile ? 0 : 2}
   >
     <T.DirectionalLight
       castShadow
@@ -150,12 +153,12 @@
       <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
     </T.DirectionalLight>
 
-    <Room {isMobile} />
+    <Room />
   </Float>
 </T>
 
-<T is={groupText} scale={isMobile ? 0.9 : 2}>
-  <T.Group position={[isMobile ? -2.15 : -4, isMobile ? 2.7 : 1.1, 0]}>
+<T is={groupText} scale={$isMobile ? 0.9 : 2}>
+  <T.Group position={[$isMobile ? -2.15 : -4, $isMobile ? 2.7 : 1.1, 0]}>
     <Text
       text={'FRONT END DEVELOPER WHO LOVES TO BUILD BEAUTIFUL WEB EXPERIENCES'}
       color="#ffffff"
@@ -164,7 +167,7 @@
       maxWidth={4.3}
       lineHeight={0.85}
       letterSpacing={0.01}
-      textAlign={isMobile ? 'center' : 'left'}
+      textAlign={$isMobile ? 'center' : 'left'}
     />
   </T.Group>
 </T>

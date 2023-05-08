@@ -11,8 +11,8 @@
   } from 'three'
   import { gltfRoom, firstTimeLoad } from '../../../stores.js'
   import { assetsTextures as assets } from '../../../stores'
+  import isMobile from '../../../mobile.store'
 
-  export let isMobile
   let pointerX = 0
   let pointerY = 0
   let tekkenVideo
@@ -40,7 +40,7 @@
   }
 
   onMount(() => {
-    if (!isMobile)
+    if (!$isMobile)
       window.addEventListener('mousemove', (e) => {
         pointerX = e.clientX * 0.001
         pointerY = e.clientY * 0.0005
@@ -48,7 +48,7 @@
   })
 
   onMount(() => {
-    if (!isMobile) {
+    if (!$isMobile) {
       tekkenVideo = document.getElementById('tekkenGameplay')
       tekkenVideo.play()
       videoTextureTekken = new VideoTexture(tekkenVideo)
@@ -71,7 +71,7 @@
   })
 
   $: if (model && !$firstTimeLoad) {
-    if (!isMobile)
+    if (!$isMobile)
       model.scene.traverse(function (child) {
         if (child.name == 'MachineScreen') {
           child.material = new MeshBasicMaterial({ map: videoTextureTekken })
@@ -98,13 +98,13 @@
 
   $: if (model && $firstTimeLoad) {
     firstTimeLoad.set(false)
-    if (!isMobile) {
+    if (!$isMobile) {
       model.scene.traverse(function (child) {
         if (child.name == 'Machine') {
           return
         }
 
-        if (!isMobile) {
+        if (!$isMobile) {
           if (child.name == 'MachineScreen') {
             child.material = new MeshBasicMaterial({ map: videoTextureTekken })
           } else if (child.name == 'Machine2Screen') {
@@ -271,7 +271,7 @@
   />
 {/if}
 
-{#if !isMobile}
+{#if !$isMobile}
   <video
     id="tekkenGameplay"
     loop

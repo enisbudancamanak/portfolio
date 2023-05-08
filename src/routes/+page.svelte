@@ -9,25 +9,6 @@
   import Loading from '../components/Loading.svelte'
   import { assetsTextures, gltfRoom } from '../stores'
 
-  let isMobile
-  onMount(() => {
-    isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-
-    window.addEventListener('resize', () => {
-      if (
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        ) &&
-        (window.innerWidth > 0 ? window.innerWidth : screen.width) < 1280
-      )
-        isMobile = true
-      else isMobile = false
-    })
-  })
-
   onMount(() => {
     gsap.from(document.querySelector('#gradientDiv'), {
       opacity: 0,
@@ -65,8 +46,8 @@
   })
 </script>
 
-{#if !isMobile || ($gltfRoom && $assetsTextures)}
-  <RoomScene {isMobile} />
+{#if $gltfRoom && $assetsTextures}
+  <RoomScene />
 {:else}
   <Loading />
 {/if}
