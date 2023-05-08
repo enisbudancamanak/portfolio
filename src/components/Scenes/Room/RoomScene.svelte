@@ -72,8 +72,8 @@
       }
   })
 
-  $: if (renderer && !isMobile) {
-    renderer.toneMapping = CineonToneMapping
+  $: if (renderer) {
+    if (!isMobile) renderer.toneMapping = CineonToneMapping
     // renderer.physicallyCorrectLights = true
     // renderer.outputEncoding = sRGBEncoding
     // renderer.toneMappingExposure = 1.75
@@ -99,7 +99,7 @@
 />
 
 <T.AmbientLight intensity={1} color="#c2c3d1" />
-<!-- <T
+<T
   is={groupRoom}
   scale={isMobile ? 0.26 : 0.55}
   position={[isMobile ? 0 : 4, isMobile ? 0 : 0.5, 0]}
@@ -125,7 +125,7 @@
 
     <Room {isMobile} />
   </Float>
-</T> -->
+</T>
 
 <T is={groupText} scale={isMobile ? 0.9 : 2}>
   <T.Group position={[isMobile ? -2.15 : -4, isMobile ? 2.7 : 1.1, 0]}>
