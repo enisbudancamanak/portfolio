@@ -67,7 +67,7 @@
         gsap.to(groupText.position, {
           x: -10,
           ease: 'Power4.easeOut',
-          duration: 1,
+          duration: 0.8,
         })
         gsap.to(groupRoom.position, {
           x: 20,
@@ -81,7 +81,7 @@
       }
   })
 
-  $: if (renderer) {
+  $: if (renderer && !isMobile) {
     renderer.toneMapping = CineonToneMapping
     // renderer.physicallyCorrectLights = true
     // renderer.outputEncoding = sRGBEncoding
@@ -121,13 +121,15 @@
       color="#ffffff"
       intensity="3"
     >
-      <T.PerspectiveCamera
-        attach="shadow.camera"
-        near={0.1}
-        far={100}
-        bias={-0.0005}
-      />
-      <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
+      {#if !isMobile}
+        <T.PerspectiveCamera
+          attach="shadow.camera"
+          near={0.1}
+          far={100}
+          bias={-0.0005}
+        />
+        <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
+      {/if}
     </T.DirectionalLight>
 
     <Room {isMobile} />
