@@ -1,20 +1,29 @@
 <script lang="ts">
-  import { T, useThrelte } from '@threlte/core'
-  import { OrthographicCamera, CineonToneMapping, Group } from 'three'
+  import { useFrame, T, useThrelte } from '@threlte/core'
+  import {
+    OrthographicCamera,
+    sRGBEncoding,
+    CineonToneMapping,
+    PCFSoftShadowMap,
+    Group,
+    AmbientLight,
+  } from 'three'
 
   import { onMount } from 'svelte'
   import { beforeNavigate, goto } from '$app/navigation'
   import Room from './Room.svelte'
-  import { Float, Text } from '@threlte/extras'
+  import { Float, Text, OrbitControls, GLTF } from '@threlte/extras'
   import { gsap } from 'gsap'
+  import { degToRad } from 'three/src/math/MathUtils'
   import Postprocessing from '../../Postprocessing.svelte'
+  import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
 
   export let isMobile
 
   let groupRoom = new Group()
   let groupText = new Group()
 
-  const { renderer, size } = useThrelte()
+  const { renderer, camera, scene, size } = useThrelte()
 
   let frustrum = 10
   let aspect = $size.width / $size.height
@@ -67,7 +76,7 @@
         timeline.to(
           groupText.position,
           {
-            x: -20,
+            x: -30,
             ease: 'Power4.easeOut',
             duration: 0.8,
           },
@@ -76,7 +85,7 @@
         timeline.to(
           groupRoom.position,
           {
-            x: 20,
+            x: 30,
             ease: 'Power4.easeOut',
             duration: 0.8,
             onComplete: () => {
@@ -88,14 +97,14 @@
       }
   })
 
-  $: if (renderer) {
-    if (!isMobile) renderer.toneMapping = CineonToneMapping
-    // renderer.physicallyCorrectLights = true
-    // renderer.outputEncoding = sRGBEncoding
-    // renderer.toneMappingExposure = 1.75
-    // renderer.shadowMap.enabled = true
-    // renderer.shadowMap.type = PCFSoftShadowMap
-    // renderer.setSize($size.width, $size.height)
+  $: if (!isMobile && renderer) {
+    renderer.physicallyCorrectLights = true
+    renderer.outputEncoding = sRGBEncoding
+    renderer.toneMapping = CineonToneMapping
+    renderer.toneMappingExposure = 1.75
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = PCFSoftShadowMap
+    renderer.setSize($size.width, $size.height)
   }
 </script>
 
@@ -122,9 +131,9 @@
   rotation={[0.3, -0.8, 0]}
 >
   <Float
-    speed={!isMobile ? 2 : 0}
-    rotationIntensity={!isMobile ? 0.25 : 0}
-    rotationSpeed={!isMobile ? 2 : 0}
+    speed={isMobile ? 0 : 2}
+    rotationIntensity={isMobile ? 0 : 0.25}
+    rotationSpeed={isMobile ? 0 : 2}
   >
     <T.DirectionalLight
       castShadow
@@ -132,25 +141,17 @@
       color="#ffffff"
       intensity="3"
     >
-      {#if !isMobile}
-        <T.PerspectiveCamera
-          attach="shadow.camera"
-          near={0.1}
-          far={100}
-          bias={-0.0005}
-        />
-        <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
-      {/if}
+      <T.PerspectiveCamera
+        attach="shadow.camera"
+        near={0.1}
+        far={100}
+        bias={-0.0005}
+      />
+      <T.Vector2 attach="shadow.mapSize" args={[2048, 2048]} />
     </T.DirectionalLight>
 
     <Room {isMobile} />
   </Float>
-  <T.DirectionalLight
-    castShadow
-    position={[5, 10, 5]}
-    color="#ffffff"
-    intensity="3"
-  />
 </T>
 
 <T is={groupText} scale={isMobile ? 0.9 : 2}>

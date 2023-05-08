@@ -9,7 +9,7 @@
   import Loading from '../components/Loading.svelte'
   import { assetsTextures, gltfRoom } from '../stores'
 
-  let isMobile = true
+  let isMobile
   onMount(() => {
     isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -65,7 +65,7 @@
   })
 </script>
 
-{#if $assetsTextures}
+{#if !isMobile || ($gltfRoom && $assetsTextures)}
   <RoomScene {isMobile} />
 {:else}
   <Loading />
