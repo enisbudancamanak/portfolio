@@ -116,7 +116,7 @@
 
     let rounded = Math.round(position)
     let diff = rounded - position
-    if (!mouseDown && ($isMobile ? speed < 5 && speed > -5 : true))
+    if (!mouseDown && ($isMobile ? speed < 1 && speed > -1 : true))
       position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
 
     if (!outro) infinitePictures()
