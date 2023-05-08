@@ -131,7 +131,7 @@
     // composer?.removePass()
     const scroller = new VirtualScroll()
     scroller.on((event) => {
-      speed = event.deltaY * (isMobile ? 3 : 1)
+      speed = event.deltaY * (isMobile ? 7 : 1)
     })
 
     createPlane()
