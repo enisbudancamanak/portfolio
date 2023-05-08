@@ -107,7 +107,7 @@
 
 <!-- //data-js-darken-top -->
 <Portal>
-  <div class="absolute z-[99999999] w-screen h-screen px-4 pt-8 pb-32 xl:p-24">
+  <div class="absolute z-[99999999] w-screen h-screen px-4 pt-8 pb-40 xl:p-24">
     <div class="w-full h-full overflow-x-hidden overflow-y-scroll">
       <div
         class="flex items-center justify-center w-full h-full text-center text-white"
@@ -128,7 +128,7 @@
         </div>
       </div>
       <div
-        class="flex flex-col w-full h-full gap-2 px-4 pt-8 pb-32 md:gap-0 md:justify-between xl:p-24"
+        class="flex flex-col w-full h-full gap-2 px-4 pt-8 pb-402 md:gap-0 md:justify-between xl:p-24"
       >
         <div>
           <h3
@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div id="content" class="absolute w-screen h-screen px-4 pt-4 pb-32 xl:p-24">
+  <div id="content" class="absolute w-screen h-screen px-4 pt-4 pb-40 xl:p-24">
     <canvas
       id="gradient-canvas"
       class="z-0 rounded-xl opacity-90"

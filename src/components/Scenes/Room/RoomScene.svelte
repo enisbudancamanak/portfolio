@@ -65,12 +65,12 @@
         //   })
         // } else if (!isMobile) {
         gsap.to(groupText.position, {
-          x: -20,
+          x: -30,
           ease: 'Power4.easeOut',
           duration: 3,
         })
         gsap.to(groupRoom.position, {
-          x: 20,
+          x: 30,
           ease: 'Power4.easeOut',
           duration: 3,
         })
