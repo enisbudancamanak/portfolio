@@ -43,7 +43,7 @@
   class="z-[999999999999999999999999] fixed top-10 right-6 font-bebasNeue tracking-widest text-center text-sm text-gray-200 flex flex-col gap-1"
 >
   <p
-    on:mousedown={() => {
+    on:pointerdown={() => {
       goto('/')
     }}
     class="cursor-pointer magnetic"
@@ -51,7 +51,7 @@
     home
   </p>
   <p
-    on:mousedown={() => {
+    on:pointerdown={() => {
       goto('/projects')
     }}
     class="cursor-pointer magnetic"
@@ -59,7 +59,7 @@
     projects
   </p>
   <p
-    on:mousedown={() => {
+    on:pointerdown={() => {
       goto('/about')
     }}
     class="cursor-pointer magnetic"
