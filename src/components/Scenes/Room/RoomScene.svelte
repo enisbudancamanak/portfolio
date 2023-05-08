@@ -14,7 +14,7 @@
   let groupRoom = new Group()
   let groupText = new Group()
 
-  const { renderer, camera, scene, size } = useThrelte()
+  const { renderer, size } = useThrelte()
 
   let frustrum = 10
   let aspect = $size.width / $size.height
