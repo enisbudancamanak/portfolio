@@ -10,7 +10,7 @@
   } from 'three'
 
   import { onMount } from 'svelte'
-  import { beforeNavigate } from '$app/navigation'
+  import { beforeNavigate, goto } from '$app/navigation'
   import Room from './Room.svelte'
   import { Float, Text, OrbitControls, GLTF } from '@threlte/extras'
   import { gsap } from 'gsap'
@@ -65,14 +65,17 @@
         //   })
         // } else if (!isMobile) {
         gsap.to(groupText.position, {
-          x: -30,
+          x: -10,
           ease: 'Power4.easeOut',
-          duration: 3,
+          duration: 1,
         })
         gsap.to(groupRoom.position, {
-          x: 30,
+          x: 10,
           ease: 'Power4.easeOut',
-          duration: 3,
+          duration: 0.8,
+          onComplete: () => {
+            goto(navigation.to.route.id)
+          },
         })
         // }
       }

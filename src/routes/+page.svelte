@@ -56,12 +56,9 @@
 
         gsap.to(document.querySelector('#profileCard'), {
           bottom: '-20%',
-          duration: 1,
+          duration: 0.8,
           ease: 'Power4.easeOut',
           delay: 0,
-          onComplete: () => {
-            goto(navigation.to.route.id)
-          },
         })
       }
   })
