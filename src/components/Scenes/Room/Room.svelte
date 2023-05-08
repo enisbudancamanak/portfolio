@@ -6,14 +6,10 @@
   import {
     MeshBasicMaterial,
     MeshPhysicalMaterial,
-    NearestFilter,
     sRGBEncoding,
-    TextureLoader,
     VideoTexture,
   } from 'three'
   import { gltfRoom, firstTimeLoad } from '../../../stores.js'
-  import { beforeNavigate } from '$app/navigation'
-  import { useGltf, useSuspense } from '@threlte/extras'
   import { assetsTextures as assets } from '../../../stores'
 
   export let isMobile
@@ -271,38 +267,40 @@
   />
 {/if}
 
-<video
-  id="tekkenGameplay"
-  loop
-  crossOrigin="anonymous"
-  playsinline
-  class="hidden"
-  autoplay
-  muted
->
-  <source src="/videos/Tekken-Gameplay.mp4" type="video/mp4;" />
-</video>
+{#if !isMobile}
+  <video
+    id="tekkenGameplay"
+    loop
+    crossOrigin="anonymous"
+    playsinline
+    class="hidden"
+    autoplay
+    muted
+  >
+    <source src="/videos/Tekken-Gameplay.mp4" type="video/mp4;" />
+  </video>
 
-<video
-  id="pacManGameplay"
-  loop
-  crossOrigin="anonymous"
-  playsinline
-  class="hidden"
-  autoplay
-  muted
->
-  <source src="/videos/PacMan-Gameplay.mp4" type="video/mp4;" />
-</video>
+  <video
+    id="pacManGameplay"
+    loop
+    crossOrigin="anonymous"
+    playsinline
+    class="hidden"
+    autoplay
+    muted
+  >
+    <source src="/videos/PacMan-Gameplay.mp4" type="video/mp4;" />
+  </video>
 
-<video
-  id="screenSaverPurple"
-  loop
-  crossOrigin="anonymous"
-  playsinline
-  class="hidden"
-  autoplay
-  muted
->
-  <source src="/videos/ScreenSaver-Galaxy.mp4" type="video/mp4;" />
-</video>
+  <video
+    id="screenSaverPurple"
+    loop
+    crossOrigin="anonymous"
+    playsinline
+    class="hidden"
+    autoplay
+    muted
+  >
+    <source src="/videos/ScreenSaver-Galaxy.mp4" type="video/mp4;" />
+  </video>
+{/if}
