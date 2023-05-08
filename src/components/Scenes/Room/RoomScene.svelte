@@ -40,35 +40,51 @@
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
         // if (isMobile) {
-        //   gsap.to(groupText.scale, {
-        //     x: 0,
-        //     y: 0,
-        //     z: 0,
-        //     ease: 'Power4.easeOut',
-        //     duration: 0.4,
-        //   })
-        //   gsap.to(groupRoom.scale, {
-        //     x: 0,
-        //     y: 0,
-        //     z: 0,
-        //     ease: 'Power4.easeOut',
-        //     duration: 0.4,
-        //   })
         // } else if (!isMobile) {
-        gsap.to(groupText.position, {
-          x: -10,
-          ease: 'Power4.easeOut',
-          duration: 0.8,
-        })
-        gsap.to(groupRoom.position, {
-          x: 20,
-          ease: 'Power4.easeOut',
-          duration: 0.8,
-          onComplete: () => {
-            goto(navigation.to.route.id)
+        let timeline = gsap.timeline().add('start')
+        timeline.to(
+          groupText.scale,
+          {
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: 'Power4.easeOut',
+            duration: 0.4,
           },
-        })
-        // }
+          'start'
+        )
+        timeline.to(
+          groupRoom.scale,
+          {
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: 'Power4.easeOut',
+            duration: 0.4,
+          },
+          'start'
+        )
+        timeline.to(
+          groupText.position,
+          {
+            x: -20,
+            ease: 'Power4.easeOut',
+            duration: 0.8,
+          },
+          'start'
+        )
+        timeline.to(
+          groupRoom.position,
+          {
+            x: 20,
+            ease: 'Power4.easeOut',
+            duration: 0.8,
+            onComplete: () => {
+              goto(navigation.to.route.id)
+            },
+          },
+          'start'
+        )
       }
   })
 
