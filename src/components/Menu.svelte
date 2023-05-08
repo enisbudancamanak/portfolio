@@ -46,7 +46,7 @@
     on:pointerdown={() => {
       goto('/')
     }}
-    class="cursor-pointer magnetic"
+    class="cursor-pointer select-none magnetic"
   >
     home
   </p>
@@ -54,7 +54,7 @@
     on:pointerdown={() => {
       goto('/projects')
     }}
-    class="cursor-pointer magnetic"
+    class="cursor-pointer select-none magnetic"
   >
     projects
   </p>
@@ -62,7 +62,7 @@
     on:pointerdown={() => {
       goto('/about')
     }}
-    class="cursor-pointer magnetic"
+    class="cursor-pointer select-none magnetic"
   >
     about
   </p>
