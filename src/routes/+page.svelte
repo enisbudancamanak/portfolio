@@ -9,12 +9,13 @@
   import Loading from '../components/Loading.svelte'
   import { assetsTextures, gltfRoom } from '../stores'
 
-  let isMobile = false
+  let isMobile = true
   onMount(() => {
     isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       )
+
     window.addEventListener('resize', () => {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

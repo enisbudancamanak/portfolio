@@ -10,7 +10,7 @@
   let scene1
   let camera1
 
-  let isMobile = false
+  let isMobile = true
   onMount(() => {
     isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

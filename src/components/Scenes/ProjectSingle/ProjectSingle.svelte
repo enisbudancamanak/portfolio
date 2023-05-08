@@ -48,7 +48,7 @@
     goto('/projects/' + projects[checkIndex])
   }
 
-  let isMobile = false
+  let isMobile = true
   onMount(() => {
     // document.getElementById('three').style.pointerEvents = 'none'
 
