@@ -1,3 +1,4 @@
+<!-- comment added -->
 <script>
   import Portal from 'svelte-portal'
 </script>
