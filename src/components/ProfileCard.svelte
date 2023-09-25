@@ -19,7 +19,7 @@
           <h2
             class="text-lg xl:text-xl tracking-wider text-white font-quicksand"
           >
-            Front End Developer
+            Full-Stack-Developer
           </h2>
         </div>
       </div>

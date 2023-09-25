@@ -141,7 +141,7 @@
           <h3
             class="text-xl md:text-3xl font-medium tracking-wide text-white font-bebasNeue max-w-[54ch]"
           >
-            I'VE BEEN developing for 7 years and am currently pursuing a degree
+            I'VE BEEN developing for 6 years and am currently pursuing a degree
             in Media Informatics at the University of Applied Sciences in
             Bremen. My passion lies in creating visually stunning 3D web
             experiences. I place great emphasis on ensuring that my work is of
@@ -161,7 +161,7 @@
           >
             <div class="avatar">
               <div class="w-24 rounded-full md:w-36">
-                <img src="/pictures/Snapchat-985292284-removebg-preview.png" />
+                <img src="/pictures/aboutMe_Pic.png" />
               </div>
             </div>
             FEEL FREE TO CONTACT ME!

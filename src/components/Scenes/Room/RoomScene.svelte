@@ -158,7 +158,7 @@
 <T is={groupText} scale={$isMobile ? 0.9 : 2}>
   <T.Group position={[$isMobile ? -2.15 : -4, $isMobile ? 2.7 : 1.1, 0]}>
     <Text
-      text={'FRONT END DEVELOPER WHO LOVES TO BUILD BEAUTIFUL WEB EXPERIENCES'}
+      text={'FULL-STACK-DEVELOPER WHO LOVES TO BUILD BEAUTIFUL WEB EXPERIENCES'}
       color="#ffffff"
       font="fonts/bebas-neue-v9-latin-regular.woff"
       fontSize={0.5}

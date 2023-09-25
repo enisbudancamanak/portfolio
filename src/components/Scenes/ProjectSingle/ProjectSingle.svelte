@@ -156,7 +156,7 @@
 
     timelineIntro.pause()
     gsap.to(document.querySelector('#titleCard'), {
-      top: '-10%',
+      top: '-20%',
       duration: 0.7,
       ease: 'Power4.easeOut',
       delay: 0.2,
