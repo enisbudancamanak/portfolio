@@ -8,6 +8,7 @@
 
   let projects = [
     'sinOfSloth',
+    'AniCafe',
     'interactiveGraphics',
     'slimeHero',
     'ARthlete',
@@ -20,7 +21,7 @@
   function gotoNext() {
     let nextIndex =
       projects.indexOf($page.route.id?.replace('/projects/', '')) + 1
-    let checkIndex = nextIndex > 7 ? 0 : nextIndex
+    let checkIndex = nextIndex > projects.length - 1 ? 0 : nextIndex
     positionProjects.set(nextIndex)
     goto('/projects/' + projects[checkIndex])
   }
