@@ -1,11 +1,6 @@
-/*
-Custom Reusable Drag Code
-Dan Ellis 2020
-*/
-
 export let mouseDown = false
 
-export function dragControls(canvas, dragAction, object) {
+export function dragControls(canvas: HTMLCanvasElement, dragAction: any) {
   var mouseX = 0,
     mouseY = 0
 
@@ -20,7 +15,7 @@ export function dragControls(canvas, dragAction, object) {
         deltaY = evt.clientY - mouseY
       mouseX = evt.clientX
       mouseY = evt.clientY
-      dragAction(deltaX, deltaY, object)
+      dragAction(deltaX, deltaY)
     },
     false
   )

@@ -1,7 +1,7 @@
-<script>
-  import Loading from '../../../components/Loading.svelte'
-  import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
-  import { assetsProjectsSingle } from '../../../stores'
+<script lang="ts">
+  import Loading from '$lib/components/Loading.svelte'
+  import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '$lib/stores/stores'
 
   let title = 'Toyroom Game'
   let color = '#c66be1'
@@ -13,7 +13,7 @@
     '/pictures/projects/toyroom/3.png',
   ]
 
-  let video = null
+  let video: any = null
   let gameVideo = '/pictures/projects/toyroom/videocompressed.mp4'
 
   let description = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
@@ -28,7 +28,7 @@
   let client = 'Student-Project at the University Of Applied Sciences in Bremen'
   let type = 'Game'
 
-  let link = null
+  let link: any = null
 </script>
 
 {#if $assetsProjectsSingle}

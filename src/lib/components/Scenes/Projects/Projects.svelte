@@ -1,5 +1,12 @@
-<script>
+<script lang="ts">
+  import { onMount } from 'svelte'
+  import { beforeNavigate, goto } from '$app/navigation'
+
+  // Threlte
   import { T, useFrame, useThrelte } from '@threlte/core'
+  import { Float, Text, interactivity } from '@threlte/extras'
+
+  // Three.js
   import {
     ShaderMaterial,
     DoubleSide,
@@ -10,28 +17,33 @@
     TextureLoader,
     Color,
     Mesh as MeshThree,
-    Float32BufferAttribute,
+    Camera,
+    Scene,
   } from 'three'
-  import gsap from 'gsap'
-  import { Float, Text } from '@threlte/extras'
-  import VirtualScroll from 'virtual-scroll'
-  import { onMount } from 'svelte'
-  import fragment from '../../shaders/fragmentText.glsl'
-  import vertexText from '../..//shaders/vertexText.glsl'
-  import vertexPicture from '../../shaders/vertexPicture.glsl'
-  import fragmentPicture from '../../shaders/fragmentPicture.glsl'
-  import { assetsProjects as assets } from '../../../stores'
-  import { interactivity } from '@threlte/extras'
-  interactivity()
-  import { dragControls, mouseDown } from '../../../dragControls'
-  import { beforeNavigate, goto } from '$app/navigation'
-  import { positionProjects } from '../../../stores'
-  import isMobile from '../../../mobile.store'
 
+  // Utils
+  import gsap from 'gsap'
+  import VirtualScroll from 'virtual-scroll'
+  import { dragControls, mouseDown } from '$lib/dragControls'
+
+  // Stores
+  import {
+    assetsProjects as assets,
+    positionProjects,
+  } from '$lib/stores/stores'
+  import isMobile from '$lib/stores/mobile.store'
+
+  // Shaders
+  import fragment from '$lib/shaders/fragmentText.glsl'
+  import vertexText from '$lib/shaders/vertexText.glsl'
+  import vertexPicture from '$lib/shaders/vertexPicture.glsl'
+  import fragmentPicture from '$lib/shaders/fragmentPicture.glsl'
+
+  interactivity()
   export const { scene, renderer, size, camera } = useThrelte()
 
   let animateTime = false
-  beforeNavigate((navigation) => {
+  beforeNavigate((navigation: any) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
         // composer?.dispose()
@@ -42,11 +54,9 @@
       }
   })
 
-  export const scene1 = scene
-  export const camera1 = $camera
-
   let projectTitles = [
     'SIN OF SLOTH',
+    'ANICAFE',
     'INTERACTIVE GRAPHICS',
     'SLIME HERO',
     'ARTHLETE',
@@ -55,6 +65,7 @@
     'WAGENFELD REDESIGN',
     'TOYROOM GAME',
     'SIN OF SLOTH',
+    'ANICAFE',
     'INTERACTIVE GRAPHICS',
     'SLIME HERO',
     'ARTHLETE',
@@ -63,6 +74,7 @@
     'WAGENFELD REDESIGN',
     'TOYROOM GAME',
     'SIN OF SLOTH',
+    'ANICAFE',
     'INTERACTIVE GRAPHICS',
     'SLIME HERO',
     'ARTHLETE',
@@ -71,6 +83,7 @@
     'WAGENFELD REDESIGN',
     'TOYROOM GAME',
     'SIN OF SLOTH',
+    'ANICAFE',
     'INTERACTIVE GRAPHICS',
     'SLIME HERO',
     'ARTHLETE',
@@ -82,6 +95,7 @@
 
   let paths = [
     'pictures/projects/sinOfSloth.png',
+    'pictures/projects/AniCafe.png',
     'pictures/projects/interactiveGraphics.png',
     'pictures/projects/slimeHero.png',
     'pictures/projects/ARthlete.png',
@@ -90,6 +104,7 @@
     'pictures/projects/wagenfeldRedesign.png',
     'pictures/projects/toyroom.png',
     'pictures/projects/sinOfSloth.png',
+    'pictures/projects/AniCafe.png',
     'pictures/projects/interactiveGraphics.png',
     'pictures/projects/slimeHero.png',
     'pictures/projects/ARthlete.png',
@@ -98,6 +113,7 @@
     'pictures/projects/wagenfeldRedesign.png',
     'pictures/projects/toyroom.png',
     'pictures/projects/sinOfSloth.png',
+    'pictures/projects/AniCafe.png',
     'pictures/projects/interactiveGraphics.png',
     'pictures/projects/slimeHero.png',
     'pictures/projects/ARthlete.png',
@@ -106,6 +122,7 @@
     'pictures/projects/wagenfeldRedesign.png',
     'pictures/projects/toyroom.png',
     'pictures/projects/sinOfSloth.png',
+    'pictures/projects/AniCafe.png',
     'pictures/projects/interactiveGraphics.png',
     'pictures/projects/slimeHero.png',
     'pictures/projects/ARthlete.png',
@@ -115,22 +132,31 @@
     'pictures/projects/toyroom.png',
   ]
 
-  let position = $positionProjects
-  let speed = 0
-  let targetSpeed = 0
-  let transitionOn = false
-  let entryAnimationCheck = false
+  let position: any = $positionProjects
+  let speed: number = 0
+  let targetSpeed: number = 0
+  let transitionOn: boolean = false
+  let entryAnimationCheck: boolean = false
+  let planeMaterial: ShaderMaterial
+  let geometryPlane: PlaneGeometry
+  let timelineIntro: gsap.core.Timeline
+  let textures: any = []
+  let speedLerp: number = 0
 
-  function dragAction(deltaX, deltaY, object) {
+  export const scene1: Scene = scene
+  export const camera1: Camera = $camera
+  export const referenceGroup: Group = new Group()
+  export const pictureMesh: MeshThree = new MeshThree()
+
+  function dragAction(deltaY: number) {
     speed += deltaY / 2
   }
 
   onMount(() => {
-    dragControls(renderer?.domElement, dragAction)
+    dragControls(renderer?.domElement as HTMLCanvasElement, dragAction)
 
-    // composer?.removePass()
-    const scroller = new VirtualScroll()
-    scroller.on((event) => {
+    const scroller: any = new VirtualScroll()
+    scroller.on((event: any) => {
       speed = event.deltaY * ($isMobile ? 7 : 1)
       speed = speed > 150 ? 150 : speed < -150 ? -150 : speed
     })
@@ -151,7 +177,7 @@
         position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.03
 
       if (!transitionOn) {
-        ref1.children[0].children.forEach((text, i) => {
+        referenceGroup.children[0].children.forEach((text: any, i) => {
           text._baseMaterial.uniforms.uSpeed.value = targetSpeed
         })
 
@@ -161,20 +187,19 @@
     updatePlaneTexture()
   })
 
-  let timelineIntro
   function entryAnimation() {
     let margin = 0.16
     let wholeHeight = projectTitles.length * margin
 
     let calcPos = position * -0.16
-    ref1.children[0].children.forEach((text, i) => {
+    referenceGroup.children[0].children.forEach((text, i) => {
       text.position.y =
-        ((margin * i + 3 + calcPos + 42069 * wholeHeight) % wholeHeight) -
+        ((margin * i - 7 + calcPos + 42069 * wholeHeight) % wholeHeight) -
         wholeHeight / 2
     })
 
     timelineIntro = gsap.timeline().add('start')
-    ref1.children[0].children.forEach((text, i) => {
+    referenceGroup.children[0].children.forEach((text: any, i) => {
       let index = Math.round(position + 100000000) % textures.length
 
       if (i != index) {
@@ -270,25 +295,22 @@
     })
   }
 
-  export const ref1 = new Group()
-  export const pictureMesh = new MeshThree()
-
   function infiniteTexts() {
     let margin = 0.16
     let wholeHeight = projectTitles.length * margin
 
     let calcPos = position * -0.16
-    ref1.children[0].children.forEach((text, i) => {
+    referenceGroup.children[0].children.forEach((text, i) => {
       text.position.y =
-        ((margin * i + 3 + calcPos + 42069 * wholeHeight) % wholeHeight) -
+        ((margin * i - 7 + calcPos + 42069 * wholeHeight) % wholeHeight) -
         wholeHeight / 2
     })
   }
 
-  function outgoingAnimation(path) {
+  function outgoingAnimation(path: string) {
     transitionOn = true
 
-    ref1.children[0].children.forEach((text, i) => {
+    referenceGroup.children[0].children.forEach((text: any, i) => {
       let index = Math.round(position + 100000000) % textures.length
       positionProjects.set(position)
 
@@ -380,9 +402,6 @@
     )
   }
 
-  let planeMaterial
-  let geometryPlane
-  let textures = []
   function createPlane() {
     textures = paths
     textures = textures.map((t) => {
@@ -405,8 +424,6 @@
         uOffset: { value: new Vector2(0.0, 0.0) },
         resolution: { value: new Vector4() },
       },
-      // wiref1rame: true,
-      // transparent: true,
       vertexShader: vertexPicture,
       fragmentShader: fragmentPicture,
     })
@@ -429,18 +446,12 @@
 
       newpos.push(xz.x, y, xz.y)
     }
-
-    // geometryPlane.setAttribute(
-    //   'position',
-    //   new Float32BufferAttribute(newpos, 3)
-    // )
   }
 
-  function lerp(start, end, amt) {
+  function lerp(start: number, end: number, amt: number) {
     return (1 - amt) * start + amt * end
   }
 
-  let speedLerp = 0
   function updatePlaneTexture() {
     if (textures) {
       let index = Math.round(position + 100000000) % textures.length
@@ -450,7 +461,7 @@
       speedLerp = lerp(speedLerp, targetSpeed, 0.1)
       planeMaterial.uniforms.uOffset.value = (targetSpeed - speedLerp) * 0.0009
 
-      ref1.children[0].children.forEach((text, i) => {
+      referenceGroup.children[0].children.forEach((text: any, i) => {
         if (i != index) {
           text.material.depthTest = true
           text.material.uniforms.uColor.value = new Color('#cc00cc')
@@ -462,11 +473,11 @@
     }
   }
 
-  function textHover(event) {
+  function textHover(event: any) {
     document.body.style.cursor = 'pointer'
   }
 
-  function unhoverText(event) {
+  function unhoverText(event: any) {
     document.body.style.cursor = 'default'
   }
 </script>
@@ -474,7 +485,7 @@
 <div>
   <T.Layers layers={'all'}>
     <T.Group>
-      <T is={ref1}>
+      <T is={referenceGroup}>
         <T.Group position={[-1.35, -0.6, 0]} scale={1.9}>
           {#each projectTitles as project, index}
             <Text
@@ -503,18 +514,6 @@
           {/each}
         </T.Group>
       </T>
-
-      <!-- {#if planeMaterial}
-        <T.Group rotation={[0, 0, 0.1 * Math.sin(position * 0.5)]}>
-          <Mesh
-            scale={1.5}
-            position={{ x: -0.35, y: -0.05 }}
-            rotation={{ y: position * 2 * Math.PI }}
-            geometry={geometryPlane}
-            material={planeMaterial}
-          />
-        </T.Group>
-      {/if} -->
     </T.Group>
 
     <Float

@@ -1,7 +1,7 @@
-<script>
-  import Loading from '../../../components/Loading.svelte'
-  import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
-  import { assetsProjectsSingle } from '../../../stores'
+<script lang="ts">
+  import Loading from '$lib/components/Loading.svelte'
+  import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '$lib/stores/stores'
 
   let title = 'ARthlete'
   let color = '#474b96'
@@ -13,7 +13,7 @@
     '/pictures/projects/ARthlete/3.png',
   ]
   let video = '/pictures/projects/ARthlete/video.mp4'
-  let gameVideo = null
+  let gameVideo: any = null
 
   let description = `ARthlete uses augmented reality to display sports exercises. It offers a deck of cards with different bodyweight exercises that can be displayed in 3D by scanning them with the mobile phone camera. The user can optimise the view of the model through gesture control and positioning of the mobile device. ARthlete is designed to help children and adults who have had little contact with bodyweight exercises to get a playful introduction to this field.`
 
@@ -21,7 +21,7 @@
   let client = 'Student-Project at the University Of Applied Sciences in Bremen'
   let type = 'Mobile Appliction / AR'
 
-  let link = null
+  let link: any = null
 </script>
 
 {#if $assetsProjectsSingle}

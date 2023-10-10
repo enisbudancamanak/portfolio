@@ -1,7 +1,7 @@
-<script>
-  import Loading from '../../../components/Loading.svelte'
-  import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
-  import { assetsProjectsSingle } from '../../../stores'
+<script lang="ts">
+  import Loading from '$lib/components/Loading.svelte'
+  import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '$lib/stores/stores'
 
   let title = 'Slime Hero'
   let color = '#6e439e'
@@ -13,7 +13,7 @@
     '/pictures/projects/SlimeHero/3.png',
   ]
   let video = '/pictures/projects/SlimeHero/video.mp4'
-  let gameVideo = null
+  let gameVideo: any = null
 
   let description = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
             nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam

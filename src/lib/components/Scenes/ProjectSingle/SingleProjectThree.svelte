@@ -1,46 +1,58 @@
-<script>
-  import { useFrame, useThrelte, T, useLoader } from '@threlte/core'
+<script lang="ts">
+  import { onMount } from 'svelte'
+
+  // Threlte
+  import { useFrame, useThrelte, T } from '@threlte/core'
+  const { size, renderer, camera, scene } = useThrelte()
+
+  // THREE.js
   import {
     ShaderMaterial,
     DoubleSide,
     Vector4,
     PlaneGeometry,
-    Vector2,
     TextureLoader,
     Mesh as MeshThree,
     Group as GroupThree,
     VideoTexture,
-    sRGBEncoding,
-    NearestFilter,
+    Group,
+    Mesh,
   } from 'three'
-  import { onMount } from 'svelte'
-  import vertexPicture from '../../shaders/vertexPicture.glsl'
-  import fragmentPicture from '../../shaders/fragmentPicture.glsl'
-  import VirtualScroll from 'virtual-scroll'
-  const { size, renderer, camera, scene } = useThrelte()
-  import gsap from 'gsap'
-  import { assetsProjectsSingle as assets } from '../../../stores'
-  import { dragControls, mouseDown } from '../../../dragControls'
-  import isMobile from '../../../mobile.store'
 
-  export let pictures
-  export let titlePicture
-  export let video
-  export let gameVideo
+  // Shaders
+  import vertexPicture from '$lib/shaders/vertexPicture.glsl'
+  import fragmentPicture from '$lib/shaders/fragmentPicture.glsl'
+
+  // Utils
+  import { dragControls, mouseDown } from '$lib/dragControls'
+  import VirtualScroll from 'virtual-scroll'
+  import gsap from 'gsap'
+
+  // Stores
+  import { assetsProjectsSingle as assets } from '$lib/stores/stores'
+  import isMobile from '$lib/stores/mobile.store'
+
+  export let pictures: string[]
+  export let titlePicture: string
+  export let video: string
+  export let gameVideo: string
+
+  export const pictureMesh: Mesh = new MeshThree()
+  let geometryPlane: PlaneGeometry
+  let textures: string[] = []
 
   let position = 0
   let speed = 0
   let targetSpeed = 0
+  let websiteVideoTexture: VideoTexture
+  let gameVideoTexture: VideoTexture
+  let rgbEffectFinished: boolean = false
 
-  let websiteVideoTexture
-  let gameVideoTexture
-
-  let rgbEffectFinished = false
-
-  export let outro = false
+  export let outro: boolean = false
+  export const ref: Group = new GroupThree()
 
   $: if (outro) {
-    ref.children[0].children.forEach((mesh) => {
+    ref.children[0].children.forEach((mesh: any) => {
       gsap.to(mesh.material.uniforms.uOffset, {
         value: -0.05,
         duration: 1,
@@ -55,16 +67,19 @@
     })
   }
 
-  export const ref = new GroupThree()
-
-  function dragAction(deltaX, deltaY, object) {
+  function dragAction(deltaY: number) {
     speed += deltaY / 2
   }
   onMount(() => {
-    dragControls(document.querySelector('#frontElement'), dragAction)
+    dragControls(
+      document.querySelector('#frontElement') as HTMLCanvasElement,
+      dragAction
+    )
 
     if (video) {
-      let websiteVideo = document.getElementById('websiteVideo')
+      let websiteVideo = document.getElementById(
+        'websiteVideo'
+      ) as HTMLVideoElement
       websiteVideo.play()
       websiteVideoTexture = new VideoTexture(websiteVideo)
       websiteVideoTexture.flipY = true
@@ -72,7 +87,7 @@
     }
 
     if (gameVideo) {
-      let gameVideo = document.getElementById('gameVideo')
+      let gameVideo = document.getElementById('gameVideo') as HTMLVideoElement
       gameVideo.play()
       gameVideoTexture = new VideoTexture(gameVideo)
       gameVideoTexture.flipY = true
@@ -80,15 +95,15 @@
       // gameVideoTexture.encoding = sRGBEncoding
     }
 
-    const scroller = new VirtualScroll()
-    scroller.on((event) => {
+    const scroller = new VirtualScroll() as any
+    scroller.on((event: any) => {
       speed = event.deltaY * ($isMobile ? 3 : 1)
     })
 
     createPlane()
 
     setTimeout(() => {
-      ref.children[0].children.forEach((mesh) => {
+      ref.children[0].children.forEach((mesh: any) => {
         gsap.from(mesh.material.uniforms.uOffset, {
           value: 0.05,
           duration: 0.4,
@@ -136,10 +151,6 @@
     })
   }
 
-  export const pictureMesh = new MeshThree()
-  // let planeMaterial
-  let geometryPlane
-  let textures = []
   function createPlane() {
     textures = [...pictures]
     textures = textures.map((t) => {
@@ -153,7 +164,7 @@
     )
   }
 
-  function lerp(start, end, amt) {
+  function lerp(start: number, end: number, amt: number) {
     return (1 - amt) * start + amt * end
   }
 
@@ -161,7 +172,7 @@
   function updatePlaneTexture() {
     if (textures) {
       speedLerp = lerp(speedLerp, targetSpeed, 0.1)
-      ref.children[0].children.forEach((mesh) => {
+      ref.children[0].children.forEach((mesh: any) => {
         mesh.material.uniforms.uOffset.value =
           (targetSpeed - speedLerp) * -0.0012
       })

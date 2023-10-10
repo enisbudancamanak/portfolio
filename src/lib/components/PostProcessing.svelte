@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { useThrelte, useRender } from '@threlte/core'
   import {
     EffectComposer,
@@ -7,13 +7,13 @@
     ChromaticAberrationEffect,
     GlitchEffect,
   } from 'postprocessing'
-  import { Vector2 } from 'three'
+  import { Camera, Vector2 } from 'three'
 
   const { scene, renderer, camera } = useThrelte()
 
   const composer = new EffectComposer(renderer)
 
-  const setupEffectComposer = (camera) => {
+  const setupEffectComposer = (camera: Camera) => {
     composer.removeAllPasses()
     composer.addPass(new RenderPass(scene, camera))
     composer.addPass(new EffectPass(camera, new ChromaticAberrationEffect()))

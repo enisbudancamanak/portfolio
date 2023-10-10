@@ -1,13 +1,13 @@
-<script>
-  import gsap from 'gsap'
+<script lang="ts">
   import { onMount } from 'svelte'
-  import isMobile from '../mobile.store'
+  import gsap from 'gsap'
+  import isMobile from '$lib/stores/mobile.store'
 
   onMount(() => {
-    const blob = document.getElementById('blob')
+    const blob = document.getElementById('blob') as HTMLElement
 
     if (!$isMobile)
-      window.onpointermove = (event) => {
+      window.onpointermove = (event: any) => {
         const { clientX, clientY } = event
         blob.animate(
           {

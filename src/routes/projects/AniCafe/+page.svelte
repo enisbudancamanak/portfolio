@@ -3,18 +3,15 @@
   import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
   import { assetsProjectsSingle } from '$lib/stores/stores'
 
-  let title = 'ShioriList'
-  let color = '#b481ff'
+  let title = 'AniCafe'
+  let color = '#5a03a6'
 
-  let titlePicture: any = null
+  let titlePicture = '/pictures/projects/AniCafe/1.png'
 
   let pictures = [
-    '/pictures/projects/shioriList/2.png',
-    '/pictures/projects/shioriList/1.png',
-    '/pictures/projects/shioriList/3.png',
-    '/pictures/projects/shioriList/4.png',
-    '/pictures/projects/shioriList/5.png',
-    '/pictures/projects/shioriList/6.png',
+    '/pictures/projects/AniCafe/2.png',
+    '/pictures/projects/AniCafe/3.png',
+    '/pictures/projects/AniCafe/4.png',
   ]
   let video: any = null
   let gameVideo: any = null
@@ -27,11 +24,11 @@
             sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
             et dolore magna aliquyam erat.`
 
-  let completed = '2022'
+  let completed = '2023'
   let client = 'Student-Project at the University Of Applied Sciences in Bremen'
-  let type = 'Website'
+  let type = 'Mobile Appliction'
 
-  let link = null
+  let link: any = null
 </script>
 
 {#if $assetsProjectsSingle}

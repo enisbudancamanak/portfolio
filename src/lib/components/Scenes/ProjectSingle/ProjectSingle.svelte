@@ -1,32 +1,39 @@
-<script>
+<script lang="ts">
+  import { onMount } from 'svelte'
   import { goto, beforeNavigate } from '$app/navigation'
   import { page } from '$app/stores'
+  import type { BeforeNavigate } from '@sveltejs/kit'
   import gsap from 'gsap'
-  import { onMount } from 'svelte'
-  import SingleProjectThree from './SingleProjectThree.svelte'
-  import viewport from '../../../useViewportAction'
-  import Portal from 'svelte-portal'
-  import { positionProjects } from '../../../stores'
-  import { fade, fly } from 'svelte/transition'
-  import isMobile from '../../../mobile.store'
+  import { fly } from 'svelte/transition'
 
-  export let title
-  export let type
-  export let completed
-  export let client
-  export let description
-  export let link
-  export let pictures
-  export let video
-  export let gameVideo
-  export let color
-  export let titlePicture
+  // Components
+  import SingleProjectThree from './SingleProjectThree.svelte'
+
+  // Stores
+  import isMobile from '$lib/stores/mobile.store'
+
+  // Utils
+  import { positionProjects } from '$lib/stores/stores'
+  import viewport from '$lib/useViewportAction'
+  import Portal from 'svelte-portal'
+
+  export let title: string
+  export let type: string
+  export let completed: string
+  export let client: string
+  export let description: string
+  export let link: string
+  export let pictures: string[]
+  export let video: string
+  export let gameVideo: string
+  export let color: string
+  export let titlePicture: string
 
   document.documentElement.style.setProperty('--color', color)
 
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let outro = false
-  let scrollElement
+  const letters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let outro: boolean = false
+  let timelineIntro: gsap.core.Timeline
 
   // ff336d
 
@@ -50,7 +57,7 @@
   }
 
   let animateTime = false
-  beforeNavigate((navigation) => {
+  beforeNavigate((navigation: BeforeNavigate) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
         // composer?.dispose()
@@ -65,17 +72,18 @@
           })
         }
 
-        outroAnimation(navigation.to.route.id)
+        //@ts-ignore
+        outroAnimation(navigation?.to.route.id)
       }
   })
 
-  function hackEffect(event) {
+  function hackEffect(event: any) {
     let iteration = 0
 
     let interval = setInterval(() => {
       event.target.innerText = event.target.innerText
         .split('')
-        .map((letter, index) => {
+        .map((letter: any, index: number) => {
           if (index < iteration) {
             return event.target.dataset.value[index]
           }
@@ -92,7 +100,6 @@
     }, 30)
   }
 
-  let timelineIntro
   onMount(() => {
     timelineIntro = gsap.timeline().add('start')
 
@@ -151,7 +158,7 @@
     )
   })
 
-  function outroAnimation(path) {
+  function outroAnimation(path?: string) {
     outro = true
 
     timelineIntro.pause()

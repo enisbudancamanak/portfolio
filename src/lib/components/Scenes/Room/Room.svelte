@@ -1,27 +1,38 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte'
-  import { T } from '@threlte/core'
-  import gsap from 'gsap'
   import { spring } from 'svelte/motion'
+
+  // Threlte
+  import { T } from '@threlte/core'
+
+  // THREE.js
   import {
     MeshBasicMaterial,
     MeshPhysicalMaterial,
     sRGBEncoding,
     VideoTexture,
   } from 'three'
-  import { gltfRoom, firstTimeLoad } from '../../../stores.js'
-  import { assetsTextures as assets } from '../../../stores'
-  import isMobile from '../../../mobile.store'
 
-  let pointerX = 0
-  let pointerY = 0
-  let tekkenVideo
-  let videoTextureTekken
-  let pacManVideo
-  let videoTexturePacMan
-  let screenSaverVideo
-  let videoTextureScreenSaver
-  $: model = $gltfRoom
+  // Utils
+  import gsap from 'gsap'
+
+  // Stores
+  import {
+    gltfRoom,
+    firstTimeLoad,
+    assetsTextures as assets,
+  } from '$lib/stores/stores'
+  import isMobile from '$lib/stores/mobile.store'
+
+  let pointerX: number = 0
+  let pointerY: number = 0
+  let tekkenVideo: HTMLVideoElement
+  let videoTextureTekken: VideoTexture
+  let pacManVideo: HTMLVideoElement
+  let videoTexturePacMan: VideoTexture
+  let screenSaverVideo: HTMLVideoElement
+  let videoTextureScreenSaver: VideoTexture
+  $: model = $gltfRoom as any
 
   const offsetX = spring(pointerX * 0.03)
   $: offsetX.set(pointerX * 0.03)
@@ -49,19 +60,30 @@
 
   onMount(() => {
     if (!$isMobile) {
-      tekkenVideo = document.getElementById('tekkenGameplay')
+      // Tekken-Gameplay
+      tekkenVideo = document.getElementById(
+        'tekkenGameplay'
+      ) as HTMLVideoElement
       tekkenVideo.play()
       videoTextureTekken = new VideoTexture(tekkenVideo)
       videoTextureTekken.flipY = false
       videoTextureTekken.generateMipmaps = false
       videoTextureTekken.encoding = sRGBEncoding
-      pacManVideo = document.getElementById('pacManGameplay')
+
+      // PacMan-Gameplay
+      pacManVideo = document.getElementById(
+        'pacManGameplay'
+      ) as HTMLVideoElement
       pacManVideo.play()
       videoTexturePacMan = new VideoTexture(pacManVideo)
       videoTexturePacMan.flipY = false
       videoTexturePacMan.generateMipmaps = false
       videoTexturePacMan.encoding = sRGBEncoding
-      screenSaverVideo = document.getElementById('screenSaverPurple')
+
+      // Galaxy ScreenSaver
+      screenSaverVideo = document.getElementById(
+        'screenSaverPurple'
+      ) as HTMLVideoElement
       // screenSaverVideo.play()
       videoTextureScreenSaver = new VideoTexture(screenSaverVideo)
       videoTextureScreenSaver.flipY = false
@@ -72,7 +94,7 @@
 
   $: if (model && !$firstTimeLoad) {
     if (!$isMobile)
-      model.scene.traverse(function (child) {
+      model.scene.traverse(function (child: any) {
         if (child.name == 'MachineScreen') {
           child.material = new MeshBasicMaterial({ map: videoTextureTekken })
         } else if (child.name == 'Machine2Screen') {
@@ -99,7 +121,7 @@
   $: if (model && $firstTimeLoad) {
     firstTimeLoad.set(false)
     if (!$isMobile) {
-      model.scene.traverse(function (child) {
+      model.scene.traverse(function (child: any) {
         if (child.name == 'Machine') {
           return
         }
@@ -155,7 +177,7 @@
         }
       })
 
-      model.scene.children.forEach((element, index) => {
+      model.scene.children.forEach((element: any, index: number) => {
         if (
           element.name == 'Room' ||
           element.name == 'Machine' ||
@@ -231,7 +253,7 @@
         }, index * 100)
       })
     } else {
-      model.scene.children.forEach((element, index) => {
+      model.scene.children.forEach((element: any, index: any) => {
         if (
           element.name == 'Room' ||
           element.name == 'Machine' ||

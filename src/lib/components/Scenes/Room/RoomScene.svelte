@@ -1,5 +1,13 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+  import { beforeNavigate, goto } from '$app/navigation'
+  import type { BeforeNavigate } from '@sveltejs/kit'
+
+  // Threlte
   import { T, useThrelte } from '@threlte/core'
+  import { Float, Text } from '@threlte/extras'
+
+  // Three
   import {
     OrthographicCamera,
     sRGBEncoding,
@@ -8,34 +16,22 @@
     Group,
   } from 'three'
 
-  import { onMount } from 'svelte'
-  import { beforeNavigate, goto } from '$app/navigation'
+  // Components
   import Room from './Room.svelte'
-  import { Float, Text } from '@threlte/extras'
+  import Postprocessing from '$lib/components/PostProcessing.svelte'
+
+  // Utils
   import { gsap } from 'gsap'
-  import Postprocessing from '../../Postprocessing.svelte'
-  import RipplePass from '../../Effects/Ripples/RipplePass.svelte'
-  import isMobile from '../../../mobile.store'
+  import isMobile from '$lib/stores/mobile.store'
 
-  let groupRoom = new Group()
-  let groupText = new Group()
+  let groupRoom: Group = new Group()
+  let groupText: Group = new Group()
 
-  const { renderer, camera, scene, size } = useThrelte()
+  const { renderer, size } = useThrelte()
 
-  let frustrum = 10
-  let aspect = $size.width / $size.height
   let cameraVariable: OrthographicCamera
 
   onMount(() => {
-    // window.addEventListener('resize', () => {
-    //   aspect = $size.width / $size.height
-    //   cameraVariable.left = (-aspect * frustrum) / 2
-    //   cameraVariable.right = (aspect * frustrum) / 2
-    //   cameraVariable.top = frustrum / 2
-    //   cameraVariable.bottom = -frustrum / 2
-    //   cameraVariable.updateProjectionMatrix()
-    // })
-
     gsap.from(groupText.position, {
       x: -20,
       ease: 'Power4.easeOut',
@@ -43,7 +39,7 @@
     })
   })
   let animateTime = false
-  beforeNavigate((navigation) => {
+  beforeNavigate((navigation: BeforeNavigate) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
         // if ($isMobile) {

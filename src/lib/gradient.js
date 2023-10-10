@@ -580,8 +580,11 @@ class Gradient {
             this.minigl.render()
         }
         if (0 !== this.last && this.isStatic)
-          return this.minigl.render(), void this.disconnect()
-        ;/*this.isIntersecting && */ (this.conf.playing || this.isMouseDown) &&
+          return (
+            this.minigl.render(), void this.disconnect()
+            /*this.isIntersecting && */
+          )
+        ;(this.conf.playing || this.isMouseDown) &&
           requestAnimationFrame(this.animate)
       }),
       e(this, 'addIsLoadedClass', () => {
@@ -631,7 +634,7 @@ class Gradient {
               ((this.computedCanvasStyle = getComputedStyle(this.el)),
               this.waitForCssVars())
           }))
-          /*
+    /*
           this.scrollObserver = await s.create(.1, !1),
           this.scrollObserver.observe(this.el),
           this.scrollObserver.onSeparate(() => {

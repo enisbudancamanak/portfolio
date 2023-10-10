@@ -1,12 +1,19 @@
-<script>
-  import gsap from 'gsap'
+<script lang="ts">
+  // Svelte
   import { onMount } from 'svelte'
-  import ProjectsScene from '../../components/Scenes/Projects/ProjectsScene.svelte'
-  import Portal from 'svelte-portal'
-  import { LottiePlayer } from '@lottiefiles/svelte-lottie-player'
   import { beforeNavigate } from '$app/navigation'
-  import Loading from '../../components/Loading.svelte'
-  import { assetsProjects } from '../../stores'
+
+  // Components
+  import ProjectsScene from '$lib/components/Scenes/Projects/ProjectsScene.svelte'
+  import Loading from '$lib/components/Loading.svelte'
+
+  // Utils
+  import gsap from 'gsap'
+  import { LottiePlayer } from '@lottiefiles/svelte-lottie-player'
+  import Portal from 'svelte-portal'
+
+  // Stores
+  import { assetsProjects } from '$lib/stores/stores'
 
   onMount(() => {
     gsap.to(document.querySelector('#backgroundColorProjects'), {

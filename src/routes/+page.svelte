@@ -1,14 +1,22 @@
 <script lang="ts">
-  import gsap from 'gsap'
+  // Svelte
+  import { beforeNavigate } from '$app/navigation'
   import { onMount } from 'svelte'
-  import { beforeNavigate, goto } from '$app/navigation'
-  import RoomScene from '../components/Scenes/Room/RoomScene.svelte'
-  import Portal from 'svelte-portal'
-  import ProfileCard from '../components/ProfileCard.svelte'
-  import MovingGradient from '../components/MovingGradient.svelte'
-  import Loading from '../components/Loading.svelte'
-  import { assetsTextures, gltfRoom } from '../stores'
 
+  // Components
+  import RoomScene from '$lib/components/Scenes/Room/RoomScene.svelte'
+  import Loading from '$lib/components/Loading.svelte'
+  import ProfileCard from '$lib/components/ProfileCard.svelte'
+  import MovingGradient from '$lib/components/MovingGradient.svelte'
+
+  // Utils
+  import gsap from 'gsap'
+  import Portal from 'svelte-portal'
+
+  // Stores
+  import { assetsTextures, gltfRoom } from '$lib/stores/stores'
+
+  // Animate on mount
   onMount(() => {
     gsap.from(document.querySelector('#gradientDiv'), {
       opacity: 0,
@@ -24,6 +32,7 @@
   })
 
   let animateTime = false
+  // Animation before navigation
   beforeNavigate((navigation) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {

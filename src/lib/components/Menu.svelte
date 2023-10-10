@@ -1,14 +1,10 @@
-<script>
-  import gsap, { Power4, TweenMax } from 'gsap'
+<script lang="ts">
   import { onMount } from 'svelte'
-  import { currentSite } from '../stores'
+  import gsap, { Power4, TweenMax } from 'gsap'
   import { goto } from '$app/navigation'
-  import viewport from '../useViewportAction'
-
-  onMount(() => {})
 
   let strength = 20
-  function moveMagnet(event) {
+  function moveMagnet(event: any) {
     var magnetButton = event.currentTarget
     var bounding = magnetButton.getBoundingClientRect()
 

@@ -2,9 +2,9 @@
   import Portal from 'svelte-portal'
   import { page } from '$app/stores'
   import { gsap } from 'gsap'
-  import { beforeNavigate, goto } from '$app/navigation'
+  import { goto } from '$app/navigation'
   import { onMount } from 'svelte'
-  import { positionProjects } from '../../stores'
+  import { positionProjects } from '$lib/stores/stores'
 
   let projects = [
     'sinOfSloth',

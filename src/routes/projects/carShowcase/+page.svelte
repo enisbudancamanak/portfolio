@@ -1,6 +1,7 @@
-<script>
-  import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
-  import { assetsProjectsSingle } from '../../../stores'
+<script lang="ts">
+  import Loading from '$lib/components/Loading.svelte'
+  import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '$lib/stores/stores'
 
   let title = 'Car Showcase'
   let color = '#890a6e'
@@ -12,7 +13,7 @@
     '/pictures/projects/CarShowcase/3.png',
   ]
   let video = '/pictures/projects/CarShowcase/video.mp4'
-  let gameVideo = null
+  let gameVideo: any = null
 
   let description = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
             nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
@@ -26,7 +27,7 @@
   let client = 'Student-Project at the University Of Applied Sciences in Bremen'
   let type = 'Website'
 
-  let link = null
+  let link: any = null
 </script>
 
 {#if $assetsProjectsSingle}

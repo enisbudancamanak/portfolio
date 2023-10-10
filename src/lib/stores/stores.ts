@@ -11,8 +11,8 @@ export const gltfRoom = writable(null)
 export const firstTimeLoad = writable(true)
 export const positionProjects = writable(0)
 
-export const assetsTextures = writable(0)
-export const assetsProjects = writable(0)
-export const assetsProjectsSingle = writable(0)
+export const assetsTextures = writable(null)
+export const assetsProjects = writable(null)
+export const assetsProjectsSingle = writable(null)
 
 export const assetsLoaded = writable(false)

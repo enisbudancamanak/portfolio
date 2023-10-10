@@ -1,13 +1,14 @@
-<script>
+<script lang="ts">
   import '../app.postcss'
-  import Menu from '../components/Menu.svelte'
-  import { useGltf } from '@threlte/extras'
+
+  // Threlte
   import { Canvas } from '@threlte/core'
-  import MovingGradient from '../components/MovingGradient.svelte'
-  import ProfileCard from '../components/ProfileCard.svelte'
-  import Preloader from '../components/Preloader.svelte'
-  import { gltfRoom } from '../stores.js'
-  import Loading from '../components/Loading.svelte'
+
+  // Components
+  import Menu from '$lib/components/Menu.svelte'
+
+  // Utils
+  import Preloader from '$lib/components/PreLoader.svelte'
 </script>
 
 <svelte:head>
@@ -17,7 +18,6 @@
 <div class="w-screen h-screen overflow-hidden absolute bg-transparent z-[9999]">
   <Canvas>
     <slot />
-
     <Preloader />
   </Canvas>
 </div>

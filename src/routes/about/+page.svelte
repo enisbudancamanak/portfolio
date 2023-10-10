@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import Portal from 'svelte-portal'
-  import { Gradient } from '../../gradient.js'
+  import { Gradient } from '$lib/gradient.js'
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { beforeNavigate, goto } from '$app/navigation'
@@ -9,8 +9,10 @@
 
   onMount(() => {
     const gradient = new Gradient()
+    // @ts-ignore
     gradient.initGradient('#gradient-canvas')
 
+    // Animates the text
     new SplitType('.headline')
     new SplitType('.subheadline')
     gsap.to('.headline .char', {
@@ -50,7 +52,8 @@
   })
 
   let animateTime = false
-  beforeNavigate((navigation) => {
+  //  Animate before navigation
+  beforeNavigate((navigation: any) => {
     if (navigation.from?.route.id != navigation.to?.route.id)
       if (!animateTime) {
         animateTime = true
@@ -88,14 +91,17 @@
   })
 
   function outFunc() {
-    document.getElementById('tooltip').innerHTML = 'Copy mail to clipboard?'
+    const element = document.getElementById('tooltip') as HTMLElement
+    element.innerHTML = 'Copy mail to clipboard?'
   }
 
   function copyEmail() {
-    document.getElementById('tooltip').innerHTML = 'Mail is copied!'
+    const element = document.getElementById('tooltip') as HTMLElement
+    element.innerHTML = 'Mail is copied!'
+
     document.addEventListener(
       'copy',
-      function (e) {
+      function (e: any) {
         e.clipboardData.setData('text/plain', 'Enis.Budancamanak@hotmail.com')
         e.preventDefault()
       },
@@ -161,7 +167,7 @@
           >
             <div class="avatar">
               <div class="w-24 rounded-full md:w-36">
-                <img src="/pictures/aboutMe_Pic.png" />
+                <img alt="aboutMe_Pic" src="/pictures/aboutMe_Pic.png" />
               </div>
             </div>
             FEEL FREE TO CONTACT ME!
@@ -196,11 +202,7 @@
     class="flex justify-between items-center w-screen p-6 xl:px-28 xl:py-8 z-[999999999999999999] absolute bottom-0"
   >
     <div class="tooltip">
-      <button
-        class="link"
-        on:pointerdown={copyEmail}
-        on:pointerleave={outFunc()}
-      >
+      <button class="link" on:pointerdown={copyEmail} on:pointerleave={outFunc}>
         <span class="tooltiptext" id="tooltip">Copy mail to clipboard?</span>
         <span
           class="text-xl text-white transition-all duration-300 cursor-pointer md:text-3xl cc-text font-bebasNeue hover:underline"

@@ -1,7 +1,7 @@
-<script>
-  import Loading from '../../../components/Loading.svelte'
-  import ProjectSingle from '../../../components/Scenes/ProjectSingle/ProjectSingle.svelte'
-  import { assetsProjectsSingle } from '../../../stores'
+<script lang="ts">
+  import Loading from '$lib/components/Loading.svelte'
+  import ProjectSingle from '$lib/components/Scenes/ProjectSingle/ProjectSingle.svelte'
+  import { assetsProjectsSingle } from '$lib/stores/stores'
 
   let title = 'WAGENFELD REDESIGN'
   let color = '#ff03ee'
@@ -13,7 +13,7 @@
   ]
 
   let video = '/pictures/projects/WagenfeldRedesign/website.mp4'
-  let gameVideo = null
+  let gameVideo: any = null
   let description = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
             nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
             erat, sed diam voluptua. At vero eos et accusam et justo duo dolores

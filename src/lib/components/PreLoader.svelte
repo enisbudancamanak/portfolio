@@ -1,14 +1,15 @@
-<script>
-  import { useLoader } from '@threlte/core'
+<script lang="ts">
   import { TextureLoader } from 'three'
-  import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+  import { useLoader } from '@threlte/core'
+  import { useGltf, useSuspense } from '@threlte/extras'
+
+  // Stores
   import {
     gltfRoom,
     assetsProjects,
     assetsTextures,
     assetsProjectsSingle,
-  } from '../stores.js'
-  import { useGltf, useSuspense } from '@threlte/extras'
+  } from '$lib/stores/stores'
 
   // GLTF
   const suspend = useSuspense()
@@ -27,6 +28,7 @@
   })
 
   const texturesProjects = load({
+    '/pictures/projects/AniCafe.png': '/pictures/projects/AniCafe.png',
     '/pictures/projects/sinOfSloth.png': '/pictures/projects/sinOfSloth.png',
     '/pictures/projects/interactiveGraphics.png':
       '/pictures/projects/interactiveGraphics.png',
@@ -40,6 +42,10 @@
   })
 
   const textureProjectsSingle = load({
+    '/pictures/projects/AniCafe/1.png': '/pictures/projects/AniCafe/1.png',
+    '/pictures/projects/AniCafe/2.png': '/pictures/projects/AniCafe/2.png',
+    '/pictures/projects/AniCafe/3.png': '/pictures/projects/AniCafe/3.png',
+    '/pictures/projects/AniCafe/4.png': '/pictures/projects/AniCafe/4.png',
     '/pictures/projects/ARthlete/1.png': '/pictures/projects/ARthlete/1.png',
     '/pictures/projects/ARthlete/2.png': '/pictures/projects/ARthlete/2.png',
     '/pictures/projects/ARthlete/3.png': '/pictures/projects/ARthlete/3.png',
