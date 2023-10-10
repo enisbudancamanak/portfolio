@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PORTFOLIO</title>
+  <title>Portfolio - Enis Budancamanak</title>
 </svelte:head>
 
 <div class="w-screen h-screen overflow-hidden absolute bg-transparent z-[9999]">
