@@ -1,36 +1,38 @@
 <script lang="ts">
-  import { useThrelte, useRender } from '@threlte/core'
-  import {
-    EffectComposer,
-    EffectPass,
-    RenderPass,
-    ChromaticAberrationEffect,
-    GlitchEffect,
-  } from 'postprocessing'
-  import { Camera, Vector2 } from 'three'
+	import { useThrelte, useRender } from '@threlte/core'
+	import {
+		EffectComposer,
+		EffectPass,
+		RenderPass,
+		ChromaticAberrationEffect,
+		GlitchEffect,
+	} from 'postprocessing'
+	import { Camera, Vector2 } from 'three'
 
-  const { scene, renderer, camera } = useThrelte()
+	const { scene, renderer, camera } = useThrelte()
 
-  const composer = new EffectComposer(renderer)
+	const composer = new EffectComposer(renderer)
 
-  const setupEffectComposer = (camera: Camera) => {
-    composer.removeAllPasses()
-    composer.addPass(new RenderPass(scene, camera))
-    composer.addPass(new EffectPass(camera, new ChromaticAberrationEffect()))
-    composer.addPass(
-      new EffectPass(
-        camera,
-        new GlitchEffect({
-          delay: new Vector2(2, 22),
-          strength: new Vector2(0.01, 0.01),
-        })
-      )
-    )
-  }
+	const setupEffectComposer = (camera: Camera) => {
+		composer.removeAllPasses()
+		composer.addPass(new RenderPass(scene, camera))
+		composer.addPass(
+			new EffectPass(camera, new ChromaticAberrationEffect())
+		)
+		// composer.addPass(
+		// 	new EffectPass(
+		// 		camera,
+		// 		new GlitchEffect({
+		// 			delay: new Vector2(2, 22),
+		// 			strength: new Vector2(0.01, 0.01),
+		// 		})
+		// 	)
+		// )
+	}
 
-  $: setupEffectComposer($camera)
+	$: setupEffectComposer($camera)
 
-  useRender((_, delta) => {
-    composer.render(delta)
-  })
+	useRender((_, delta) => {
+		composer.render(delta)
+	})
 </script>

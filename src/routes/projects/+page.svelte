@@ -1,73 +1,71 @@
 <script lang="ts">
-  // Svelte
-  import { onMount } from 'svelte'
-  import { beforeNavigate } from '$app/navigation'
+	// Svelte
+	import { onMount } from 'svelte'
+	import { beforeNavigate } from '$app/navigation'
 
-  // Components
-  import ProjectsScene from '$lib/components/Scenes/Projects/ProjectsScene.svelte'
-  import Loading from '$lib/components/Loading.svelte'
+	// Components
+	import ProjectsScene from '$lib/components/Scenes/Projects/ProjectsScene.svelte'
+	import Loading from '$lib/components/Loading.svelte'
 
-  // Utils
-  import gsap from 'gsap'
-  import { LottiePlayer } from '@lottiefiles/svelte-lottie-player'
-  import Portal from 'svelte-portal'
+	// Utils
+	import gsap from 'gsap'
+	import { LottiePlayer } from '@lottiefiles/svelte-lottie-player'
+	import Portal from 'svelte-portal'
 
-  // Stores
-  import { assetsProjects } from '$lib/stores/stores'
+	// Stores
+	import { assetsProjects } from '$lib/stores/stores'
 
-  onMount(() => {
-    gsap.to(document.querySelector('#backgroundColorProjects'), {
-      backgroundColor: '#151517',
-      duration: 1.5,
-      ease: 'Power4.out',
-    })
+	onMount(() => {
+		gsap.to(document.querySelector('#backgroundColorProjects'), {
+			backgroundColor: '#151517',
+			duration: 1.5,
+			ease: 'Power4.out',
+		})
 
-    gsap.from('#scrollDownMouse', {
-      opacity: 0,
-      duration: 1.5,
-      ease: 'Power4.out',
-      delay: 1,
-    })
-  })
+		gsap.from('#scrollDownMouse', {
+			opacity: 0,
+			duration: 1.5,
+			ease: 'Power4.out',
+			delay: 1,
+		})
+	})
 
-  let animateTime = false
-  beforeNavigate((navigation) => {
-    if (navigation.from?.route.id != navigation.to?.route.id)
-      if (!animateTime) {
-        // composer?.dispose()
-        animateTime = true
-        navigation.cancel()
+	let animateTime = false
+	beforeNavigate((navigation) => {
+		if (navigation.from?.route.id != navigation.to?.route.id)
+			if (!animateTime) {
+				// composer?.dispose()
+				animateTime = true
+				navigation.cancel()
 
-        gsap.to('#scrollDownMouse', {
-          opacity: 0,
-          duration: 0.5,
-          ease: 'Power4.out',
-        })
-      }
-  })
+				gsap.to('#scrollDownMouse', {
+					opacity: 0,
+					duration: 0.5,
+					ease: 'Power4.out',
+				})
+			}
+	})
 </script>
 
 {#if $assetsProjects}
-  <ProjectsScene />
+	<ProjectsScene />
 {:else}
-  <Loading />
+	<Loading />
 {/if}
 
 <Portal>
-  <div
-    id="scrollDownMouse"
-    class="fixed z-[9999999999999999] bottom-8 right-4 flex gap-2 items-center opacity-60"
-  >
-    <LottiePlayer
-      src="https://assets5.lottiefiles.com/packages/lf20_pcgerf64.json"
-      autoplay={true}
-      loop={true}
-      renderer="svg"
-      background="transparent"
-      height={52}
-      width={52}
-    />
-  </div>
+	<div
+		id="scrollDownMouse"
+		class="fixed z-[9999999999999999] bottom-8 right-4 flex gap-2 items-center opacity-60">
+		<LottiePlayer
+			src="https://assets5.lottiefiles.com/packages/lf20_pcgerf64.json"
+			autoplay={true}
+			loop={true}
+			renderer="svg"
+			background="transparent"
+			height={52}
+			width={52} />
+	</div>
 </Portal>
 
 <style>
